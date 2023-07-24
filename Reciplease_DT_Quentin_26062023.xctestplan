@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "3C434718-4829-453D-BA24-BA80BD326B62",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Reciplease_DT_Quentin_26062023.xcodeproj",
+      "identifier" : "3C5BCA402A49EDFC00D2B799",
+      "name" : "Reciplease_DT_Quentin_26062023"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Reciplease_DT_Quentin_26062023.xcodeproj",
+        "identifier" : "3C5BCA562A49EDFE00D2B799",
+        "name" : "Reciplease_DT_Quentin_26062023Tests"
+      }
+    },
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Reciplease_DT_Quentin_26062023.xcodeproj",
+        "identifier" : "3C5BCA602A49EDFE00D2B799",
+        "name" : "Reciplease_DT_Quentin_26062023UITests"
+      }
+    }
+  ],
+  "version" : 1
+}

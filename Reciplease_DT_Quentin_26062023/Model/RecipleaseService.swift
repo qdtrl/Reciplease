@@ -7,32 +7,143 @@
 
 import Foundation
 
-class RecipleaseService {
-    private let ApiURL: String = " https://api.edamam.com/api/recipes/v2"
-    private let ApiID: String = "24a1e0a6"
-    private let ApiKey: String = "c609bd02eadc9967fccb3d66a4ee554b"
+struct RecipeImages: Codable {
+    let thumbnail: ImageData
+    let small: ImageData
+    let regular: ImageData
+    let large: ImageData
     
+    enum CodingKeys: String, CodingKey {
+        case thumbnail = "THUMBNAIL"
+        case small = "SMALL"
+        case regular = "REGULAR"
+        case large = "LARGE"
+    }
+}
+
+struct ImageData: Codable {
+    let url: String
+    let width: Int
+    let height: Int
+}
+
+struct Ingredient: Codable {
+    let text: String
+    let quantity: Int
+    let measure: String
+    let food: String
+    let weight: Int
+    let foodId: String
+}
+
+struct Digest: Codable {
+    let label: String
+    let tag: String
+    let schemaOrgTag: String
+    let total: Int
+    let hasRDI: Bool
+    let daily: Int
+    let unit: String
+    let sub: String
+}
+
+struct Recipe: Codable {
+    let uri: String
+    let label: String
+    let image: String
+    let images: RecipeImages
+    let source: String
+    let url: String
+    let shareAs: String
+    let yield: Int
+    let dietLabels: [String]
+    let healthLabels: [String]
+    let cautions: [String]
+    let ingredientLines: [String]
+    let ingredients: [Ingredient]
+    let calories: Int
+    let glycemicIndex: Int
+    let totalCO2Emissions: Int
+    let co2EmissionsClass: String
+    let totalWeight: Int
+    let cuisineType: [String]
+    let mealType: [String]
+    let dishType: [String]
+    let instructions: [String]
+    let tags: [String]
+    let externalId: String
+    let digest: [Digest]
+}
+
+struct SearchResult: Codable {
+    let from: Int
+    let to: Int
+    let count: Int
+    let links: Links
+    let hits: [Hit]
     
-    func getRecipe(callBack: @escaping (Bool, String?) -> Void) {
-        var urlComponents = URLComponents(string: ApiURL + "/languages")!
+    enum CodingKeys: String, CodingKey {
+        case from
+        case to
+        case count
+        case links = "_links"
+        case hits
+    }
+}
+
+struct Links: Codable {
+    let selfLink: Link
+    let nextLink: Link
+    
+    enum CodingKeys: String, CodingKey {
+        case selfLink = "self"
+        case nextLink = "next"
+    }
+}
+
+struct Link: Codable {
+    let href: String
+    let title: String
+}
+
+struct Hit: Codable {
+    let recipe: Recipe
+    let links: Links
+    
+    enum CodingKeys: String, CodingKey {
+        case recipe
+        case links = "_links"
+    }
+}
+
+
+class RecipiesService {
+    private let ApiURL: String = "https://api.edamam.com/api/recipes/v2"
+    
+    private var session: URLSession
+        
+    init(session: URLSession = URLSession(configuration: .default)) {
+        self.session = session
+    }
+    
+    func getRecipes(foods: String, callBack: @escaping (Bool, SearchResult?) -> Void) {
+        let key = Bundle.main.object(forInfoDictionaryKey: "RECIPLEASE_API_KEY") as! String
+        
+        let id = Bundle.main.object(forInfoDictionaryKey: "RECIPLEASE_API_ID") as! String
+        
+        var urlComponents = URLComponents(string: ApiURL)!
+        
         urlComponents.queryItems = [
-            URLQueryItem(name: "q", value: "chicken"),
-            URLQueryItem(name: "app_id", value: ApiID),
-            URLQueryItem(name: "app_key", value: ApiKey)
+            URLQueryItem(name: "q", value: foods),
+            URLQueryItem(name: "app_id", value: id),
+            URLQueryItem(name: "app_key", value: key)
         ]
         
-        
-        
-        guard let url = urlComponents.url else {
-            callBack(false, nil)
-            return
-        }
-        
-        print(url)
-        
+        let url = urlComponents.url!
+                
         let request = URLRequest(url: url)
         
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        let task = session.dataTask(with: request) { (data, response, error) in
             // Check for any errors
             if let error = error {
                 print("Error: \(error)")
@@ -45,20 +156,18 @@ class RecipleaseService {
                 if httpResponse.statusCode == 200 {
                     // API request was successful
                     if let data = data {
-//                        do {
-//                            let translationData = try JSONDecoder().decode(Languages.self, from: data)
-//                            callBack(true, translationData)
-//                            return
-//                            
-//                        } catch {
-//                            print("Error decoding JSON: \(error)")
-//                            callBack(false, nil)
-//                            return
-//                        }
+                        do {
+                            let recipiesData = try JSONDecoder().decode(SearchResult.self, from: data)
+                            callBack(true, recipiesData)
+                            return
+                            
+                        } catch {
+                            callBack(false, nil)
+                            return
+                        }
                     }
                 } else {
                     // API request failed
-                    print("Error HTTP response status code: \(httpResponse.statusCode)")
                     callBack(false, nil)
                     return
                 }

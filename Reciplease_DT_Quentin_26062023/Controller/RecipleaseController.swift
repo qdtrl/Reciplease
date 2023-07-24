@@ -8,7 +8,7 @@
 import UIKit
 
 class RecipleaseController: UIViewController {
-    private let reciplease = RecipleaseService()
+    private let reciplease = RecipiesService()
     
     @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
         //        amountChoice.resignFirstResponder()
@@ -32,7 +32,7 @@ class RecipleaseController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        reciplease.getRecipe {(success, recipe) in
+        reciplease.getRecipes(foods: "chicken") {(success, recipe) in
             
             
         }
