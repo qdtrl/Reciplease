@@ -6,30 +6,106 @@
 //
 
 import XCTest
+@testable import Reciplease_DT_Quentin_26062023
 
 final class RecipiesServiceTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+                
+    func testServiceShouldPostFailedCallbackIfError() {
+        // Given
+        let recipleaseService = RecipiesService(session: URLSessionFake(data: nil, response: nil, error: FakeResponseData.error))
+        
+        // When
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        
+        recipleaseService.getRecipes(foods: "chicken") { (success, searchResult) in
+            
+            // Then
+            XCTAssertFalse(success)
+            XCTAssertNil(searchResult)
+            expectation.fulfill()
         }
     }
-
+    
+    func testServiceShouldPostFailedCallbackIfNoData() {
+        // Given
+        let recipleaseService = RecipiesService(session: URLSessionFake(data: nil, response: nil, error: nil))
+        
+        // When
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        
+        recipleaseService.getRecipes(foods: "chicken") { (success, searchResult) in
+            
+            // Then
+            XCTAssertFalse(success)
+            XCTAssertNil(searchResult)
+            expectation.fulfill()
+        }
+    }
+    
+    func testServiceShouldPostFailedCallbackIfIncorrectResponse() {
+        // Given
+        let recipleaseService = RecipiesService(session: URLSessionFake(data: FakeResponseData.recipiesCorrectData, response: FakeResponseData.responseKO, error: nil))
+        
+        // When
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        
+        recipleaseService.getRecipes(foods: "chicken") { (success, searchResult) in
+            
+            // Then
+            XCTAssertFalse(success)
+            XCTAssertNil(searchResult)
+            expectation.fulfill()
+        }
+    }
+    
+    func testServiceShouldPostFailedCallbackIfIncorrectData() {
+        // Given
+        let recipleaseService = RecipiesService(session: URLSessionFake(data: FakeResponseData.incorrectData, response: FakeResponseData.responseOK, error: nil))
+        
+        // When
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        
+        recipleaseService.getRecipes(foods: "chicken") { (success, searchResult) in
+            
+            // Then
+            XCTAssertFalse(success)
+            XCTAssertNil(searchResult)
+            expectation.fulfill()
+        }
+    }
+    
+    func testServiceShouldPostFailedCallbackIfNilData() {
+        // Given
+        let recipleaseService = RecipiesService(session: URLSessionFake(data: nil, response: FakeResponseData.responseOK, error: nil))
+        
+        // When
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        
+        recipleaseService.getRecipes(foods: "chicken") { (success, searchResult) in
+            
+            // Then
+            XCTAssertFalse(success)
+            XCTAssertNil(searchResult)
+            expectation.fulfill()
+        }
+    }
+    
+    func testServiceCorrectAnswer() {
+        // Given
+        let recipleaseService = RecipiesService(session: URLSessionFake(data: FakeResponseData.recipiesCorrectData, response: FakeResponseData.responseOK, error: nil))
+        
+        // When
+        let expectation = XCTestExpectation(description: "Wait for queue change.")
+        
+        recipleaseService.getRecipes(foods: "chicken") { (success, recipiesData) in
+            // Then
+            XCTAssertTrue(success)
+            XCTAssertNotNil(recipiesData)
+            
+            
+            expectation.fulfill()
+        }
+    }
+        
+        
 }

@@ -16,6 +16,7 @@
 		3C5BCA7D2A49F04600D2B799 /* RecipleaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5BCA7C2A49F04600D2B799 /* RecipleaseController.swift */; };
 		3CC027052A74FF3E00F385B1 /* FoodAutoCompleteServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC027042A74FF3E00F385B1 /* FoodAutoCompleteServiceTests.swift */; };
 		3CC027072A74FF5900F385B1 /* RecipiesServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC027062A74FF5900F385B1 /* RecipiesServiceTests.swift */; };
+		3CC027092A7506F000F385B1 /* FoodAutoCompleteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CC027082A7506F000F385B1 /* FoodAutoCompleteService.swift */; };
 		3CCBC27C2A6EDD2100B2895A /* RecipiesSearch.json in Resources */ = {isa = PBXBuildFile; fileRef = 3CCBC27B2A6EDD2100B2895A /* RecipiesSearch.json */; };
 		3CCBC2812A6EDD6E00B2895A /* FoodAutoComplete.json in Resources */ = {isa = PBXBuildFile; fileRef = 3CCBC2802A6EDD6E00B2895A /* FoodAutoComplete.json */; };
 		3CCBC2852A6EDDA500B2895A /* URLSessionFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCBC2842A6EDDA500B2895A /* URLSessionFake.swift */; };
@@ -44,6 +45,7 @@
 		3C5BCA7C2A49F04600D2B799 /* RecipleaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipleaseController.swift; sourceTree = "<group>"; };
 		3CC027042A74FF3E00F385B1 /* FoodAutoCompleteServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodAutoCompleteServiceTests.swift; sourceTree = "<group>"; };
 		3CC027062A74FF5900F385B1 /* RecipiesServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipiesServiceTests.swift; sourceTree = "<group>"; };
+		3CC027082A7506F000F385B1 /* FoodAutoCompleteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodAutoCompleteService.swift; sourceTree = "<group>"; };
 		3CCBC2712A6EDC7000B2895A /* Reciplease_DT_Quentin_26062023Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Reciplease_DT_Quentin_26062023Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CCBC27B2A6EDD2100B2895A /* RecipiesSearch.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = RecipiesSearch.json; sourceTree = "<group>"; };
 		3CCBC2802A6EDD6E00B2895A /* FoodAutoComplete.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FoodAutoComplete.json; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				3C5BCA782A49EF9E00D2B799 /* RecipleaseService.swift */,
+				3CC027082A7506F000F385B1 /* FoodAutoCompleteService.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 			files = (
 				3C5BCA792A49EF9E00D2B799 /* RecipleaseService.swift in Sources */,
 				3C5BCA452A49EDFC00D2B799 /* AppDelegate.swift in Sources */,
+				3CC027092A7506F000F385B1 /* FoodAutoCompleteService.swift in Sources */,
 				3C5BCA7D2A49F04600D2B799 /* RecipleaseController.swift in Sources */,
 				3C5BCA472A49EDFC00D2B799 /* SceneDelegate.swift in Sources */,
 			);

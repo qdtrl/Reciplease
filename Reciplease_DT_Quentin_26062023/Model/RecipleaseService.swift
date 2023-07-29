@@ -78,17 +78,17 @@ struct Recipe: Codable {
 struct SearchResult: Codable {
     let from: Int
     let to: Int
-    let count: Int
-    let links: Links
-    let hits: [Hit]
-    
-    enum CodingKeys: String, CodingKey {
-        case from
-        case to
-        case count
-        case links = "_links"
-        case hits
-    }
+//    let count: Int
+//    let links: Links
+//    let hits: [Hit]
+//
+//    enum CodingKeys: String, CodingKey {
+//        case from
+//        case to
+//        case count
+//        case links = "_links"
+//        case hits
+//    }
 }
 
 struct Links: Codable {
@@ -115,7 +115,6 @@ struct Hit: Codable {
         case links = "_links"
     }
 }
-
 
 class RecipiesService {
     private let ApiURL: String = "https://api.edamam.com/api/recipes/v2"

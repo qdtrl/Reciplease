@@ -20,7 +20,7 @@ class FakeResponseData {
     }
     
     // Correct data for the method getRate
-    static var ratesCorrectData: Data? {
+    static var autoCompleteCorrectData: Data? {
         let bundle = Bundle(for: FakeResponseData.self)
         guard let url = bundle.url(forResource: "FoodAutoComplete", withExtension: "json") else {
             fatalError("FoodAutoComplete.json is not found.")
