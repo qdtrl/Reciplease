@@ -39,7 +39,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3C5BCA562A49EDFE00D2B799"
+               BlueprintIdentifier = "3CCBC2702A6EDC7000B2895A"
                BuildableName = "Reciplease_DT_Quentin_26062023Tests.xctest"
                BlueprintName = "Reciplease_DT_Quentin_26062023Tests"
                ReferencedContainer = "container:Reciplease_DT_Quentin_26062023.xcodeproj">
