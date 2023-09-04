@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FoodAutoCompleteService {
+class SearchAutoCompleteService {
     private let ApiURL: String = "https://api.edamam.com/api/recipes/v2"
     
     private var session: URLSession
