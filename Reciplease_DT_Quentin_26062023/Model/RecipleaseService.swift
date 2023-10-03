@@ -8,7 +8,6 @@
 import Foundation
 
 struct RecipeResponse: Decodable {
-    
     struct Recipe: Decodable {
         
         let label: String
@@ -44,7 +43,7 @@ struct RecipeResponse: Decodable {
 
 class RecipiesService {
     private let ApiURL: String = "https://api.edamam.com/api/recipes/v2"
-    
+
     private var session: URLSession
         
     init(session: URLSession = URLSession(configuration: .default)) {
@@ -60,12 +59,13 @@ class RecipiesService {
         
         urlComponents.queryItems = [
             URLQueryItem(name: "q", value: foods),
+            URLQueryItem(name: "type", value: "public"),
             URLQueryItem(name: "app_id", value: id),
             URLQueryItem(name: "app_key", value: key)
         ]
         
         let url = urlComponents.url!
-                
+
         let request = URLRequest(url: url)
         
         let task = session.dataTask(with: request) { (data, response, error) in

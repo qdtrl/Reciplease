@@ -1,18 +1,18 @@
 //
-//  SearchController.swift
+//  RecipieViewController.swift
 //  Reciplease_DT_Quentin_26062023
 //
 //  Created by Quentin Dubut-Touroul on 04/09/2023.
 //
 
 import UIKit
+import CoreData
 
-class SearchController: UIViewController {
+final class RecipieViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
     }
     
 
@@ -25,5 +25,10 @@ class SearchController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    private func addFavorite() {
+        
+        
+    }
 
 }
