@@ -22,15 +22,17 @@ class RecipiesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        emptyResults.isHidden = true
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        print(ingredients)
         if displayFavorites {
             recipiesRepository.getRecipies(callback: { [weak self] recipies in
-               self?.recipies = recipies
+                self?.recipies = recipies
+                self?.tableView.reloadData()
              })
         } else {
             recipiesService.getRecipes(foods: ingredients.joined(separator: ",").lowercased()) { (success, recipiesData) in
@@ -38,10 +40,12 @@ class RecipiesListViewController: UIViewController {
                     self.alert(title: "Connection Impossible", message: "Veuillez vous connecter à Internet")
                     return
                 }
-                self.recipies = []
+            
                 let coreDataStack = CoreDataStack.shared
                 recipiesData.hits.forEach{hitResponse in
+                    
                     let recipie = Recipie(context: coreDataStack.viewContext)
+                    
                     recipie.id = hitResponse.recipe.label
                     recipie.title = hitResponse.recipe.label
                     recipie.instructions = hitResponse.recipe.ingredientLines.joined(separator: ", ")
@@ -49,13 +53,15 @@ class RecipiesListViewController: UIViewController {
                     recipie.redirection = hitResponse.recipe.uri
                     recipie.isFavorite = false
                     recipie.time = hitResponse.recipe.totalTime
-                        
+                    print(recipie)
                     self.recipies.append(recipie)
                     
                 }
+                self.tableView.reloadData()
             }
         }
-        tableView.reloadData()
+        
+        
         if recipies.count == 0 {
             emptyResults.text = displayFavorites ? "Aucune recette favorite, ajoutez en d'abord via la recherche" : "Aucun résultat avec votre combinaison d'ingrédients"
             emptyResults.isHidden = false

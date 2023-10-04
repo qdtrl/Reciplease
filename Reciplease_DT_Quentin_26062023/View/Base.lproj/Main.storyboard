@@ -215,7 +215,6 @@
         <!--Recipies List Controller-->
         <scene sceneID="XtE-Lv-YQr">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qdC-6F-U8e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="RecipiesList" id="MMD-12-fVh" userLabel="Recipies List Controller" customClass="RecipiesListViewController" customModule="Reciplease_DT_Quentin_26062023" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="np9-iG-VMg">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
@@ -270,10 +269,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="DR8-FL-W8M"/>
                     <connections>
-                        <outlet property="emptyResults" destination="CbO-8W-cnn" id="fWc-i3-PLI"/>
-                        <outlet property="tableView" destination="mks-Zn-B2d" id="wOa-Bp-5yy"/>
+                        <outlet property="emptyResults" destination="CbO-8W-cnn" id="HoS-Bw-Tuc"/>
+                        <outlet property="tableView" destination="mks-Zn-B2d" id="Ee6-H2-eAQ"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qdC-6F-U8e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2326" y="906"/>
         </scene>
