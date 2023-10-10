@@ -28,11 +28,12 @@ class RecipiesListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(ingredients)
+        emptyResults.isHidden = true
+        
         if displayFavorites {
             recipiesRepository.getRecipies(callback: { [weak self] recipies in
                 self?.recipies = recipies
-                self?.tableView.reloadData()
+                self?.update(displayFavorites: true)
              })
         } else {
             recipiesService.getRecipes(foods: ingredients.joined(separator: ",").lowercased()) { (success, recipiesData) in
@@ -53,18 +54,23 @@ class RecipiesListViewController: UIViewController {
                     recipie.redirection = hitResponse.recipe.uri
                     recipie.isFavorite = false
                     recipie.time = hitResponse.recipe.totalTime
-                    print(recipie)
+
                     self.recipies.append(recipie)
-                    
                 }
-                self.tableView.reloadData()
+                
+                self.update(displayFavorites: false)
             }
         }
-        
-        
-        if recipies.count == 0 {
-            emptyResults.text = displayFavorites ? "Aucune recette favorite, ajoutez en d'abord via la recherche" : "Aucun résultat avec votre combinaison d'ingrédients"
-            emptyResults.isHidden = false
+    }
+    
+    func update(displayFavorites: Bool) {
+        DispatchQueue.main.async { [ weak self ] in
+            if self?.recipies.count == 0 {
+                self?.emptyResults.text = displayFavorites ? "Aucune recette favorite, ajoutez en d'abord via la recherche" : "Aucun résultat avec votre combinaison d'ingrédients"
+                self?.emptyResults.isHidden = false
+            } else {
+                self?.tableView.reloadData()
+            }
         }
     }
     
@@ -90,8 +96,9 @@ extension RecipiesListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-       let cell = tableView.dequeueReusableCell(withIdentifier: "RecipieCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecipieCell", for: indexPath)as? RecipieTableViewCell else {
+            return UITableViewCell()
+        }
         
         let food = recipies[indexPath.row]
         
@@ -105,4 +112,11 @@ extension RecipiesListViewController: UITableViewDataSource {
         return cell
 
     }
+    
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let viewController = storyboard.instantiateViewController(withIdentifier: "RecipiesList") as! RecipiesListViewController
+//        
+//        viewController.
+//        self.navigationController?.pushViewController(viewController, animated: true)
+    
 }
