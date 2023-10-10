@@ -61,13 +61,11 @@ class SearchRecipiesViewController: UIViewController {
 
     @IBAction func searchButton(_ sender: UIButton) {
         if ingredients.count > 0 {
-            let viewController = RecipiesListViewController.init()
-    //   on passe displayFavorite à False pour que RecipeList affiche la liste de recherche
-    //   et pas la liste de favoris
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = storyboard.instantiateViewController(withIdentifier: "RecipiesList") as! RecipiesListViewController
+            
             viewController.displayFavorites = false
             viewController.ingredients = ingredients
-//            viewController.ingredientsSearch = self.viewModel.ingredientsAdded
-    //  viewController.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }

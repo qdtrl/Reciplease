@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C0DDF1B2ACB1361008F2257 /* UsefullFunc.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0DDF1A2ACB1361008F2257 /* UsefullFunc.swift */; };
+		3C32130C2AD07DF400BEB101 /* RecipieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32130B2AD07DF400BEB101 /* RecipieTableViewCell.swift */; };
 		3C5BCA452A49EDFC00D2B799 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5BCA442A49EDFC00D2B799 /* AppDelegate.swift */; };
 		3C5BCA472A49EDFC00D2B799 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5BCA462A49EDFC00D2B799 /* SceneDelegate.swift */; };
 		3C5BCA4C2A49EDFC00D2B799 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C5BCA4A2A49EDFC00D2B799 /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		3C0DDF1A2ACB1361008F2257 /* UsefullFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsefullFunc.swift; sourceTree = "<group>"; };
+		3C32130B2AD07DF400BEB101 /* RecipieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieTableViewCell.swift; sourceTree = "<group>"; };
 		3C5BCA412A49EDFC00D2B799 /* Reciplease_DT_Quentin_26062023.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reciplease_DT_Quentin_26062023.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C5BCA442A49EDFC00D2B799 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C5BCA462A49EDFC00D2B799 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				3C5BCA4A2A49EDFC00D2B799 /* Main.storyboard */,
+				3C32130B2AD07DF400BEB101 /* RecipieTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				3CADD3A02AA5E24D00626164 /* RecipiesListViewController.swift in Sources */,
 				3CADD3AE2AA60B8500626164 /* RecipieRepository.swift in Sources */,
 				3C0DDF1B2ACB1361008F2257 /* UsefullFunc.swift in Sources */,
+				3C32130C2AD07DF400BEB101 /* RecipieTableViewCell.swift in Sources */,
 				3CADD3AC2AA5EBA500626164 /* Recipie.swift in Sources */,
 				3CADD3AA2AA5E81D00626164 /* CoreDataStack.swift in Sources */,
 				3CADD3A82AA5E73E00626164 /* Reciplease.xcdatamodeld in Sources */,
