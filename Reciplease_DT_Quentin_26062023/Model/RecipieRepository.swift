@@ -17,24 +17,14 @@ final class RecipieRepository {
     }
     
     
-    func addRecipie(with
-                    id: String,
-                    title: String,
-                    image: String,
-                    time: Double,
-                    instructions: String,
-                    redirection: String,
-                    for recipie: Recipie, callback: @escaping () -> Void){
-        let recipie = Recipie(context: coreDataStack.viewContext)
-        recipie.title = title
-        recipie.id = id
-        recipie.instructions = instructions
-        recipie.time = time
-        recipie.redirection = redirection
-        recipie.image = image
+    func addRecipie(recipieInit: Recipie){
+        var recipie = Recipie(context: coreDataStack.viewContext)
+        recipie = recipieInit
+        
         recipie.isFavorite = true
         do {
             try coreDataStack.viewContext.save()
+            print("saved success")
         } catch {
             print("We were unable to save \(recipie)")
         }
@@ -47,14 +37,29 @@ final class RecipieRepository {
             callback([])
             return
         }
+        
         callback(recipies)
     }
     
-    func remove(recipie: Recipie, callback: @escaping () -> Void) {
+    func getRecipieById(recipie: Recipe, callback: @escaping (Recipie) -> Void) {
+        let request: NSFetchRequest<Recipie> = Recipie.fetchRequest()
+        
+        let predicate = NSPredicate(format: "id", id)
+        
+        request.predicate = predicate
+        
+        guard let recipies = try? coreDataStack.viewContext.fetch(request) else {
+            callback(recipie)
+            return
+        }
+        
+        callback(recipies)
+    }
+    
+    func remove(recipie: Recipie) {
         coreDataStack.viewContext.delete(recipie)
         do {
             try coreDataStack.viewContext.save()
-            callback()
         } catch {
             print("We were unable to remove \(recipie.description)")
         }

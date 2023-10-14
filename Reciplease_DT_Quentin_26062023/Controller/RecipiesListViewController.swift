@@ -49,7 +49,7 @@ class RecipiesListViewController: UIViewController {
                     
                     recipie.id = hitResponse.recipe.label
                     recipie.title = hitResponse.recipe.label
-                    recipie.instructions = hitResponse.recipe.ingredientLines.joined(separator: ", ")
+                    recipie.instructions = hitResponse.recipe.ingredientLines.joined(separator: ",")
                     recipie.image = hitResponse.recipe.image
                     recipie.redirection = hitResponse.recipe.uri
                     recipie.isFavorite = false
@@ -86,7 +86,7 @@ class RecipiesListViewController: UIViewController {
 
 }
 
-extension RecipiesListViewController: UITableViewDataSource {
+extension RecipiesListViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -100,23 +100,22 @@ extension RecipiesListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let food = recipies[indexPath.row]
+        let recipie = recipies[indexPath.row]
         
-        guard let title = food.title else {
-            print("test")
-            cell.textLabel?.text = "test"
-            return cell
-        }
-        cell.textLabel?.text = title
+        cell.configure(recipie: recipie)
         
         return cell
-
     }
     
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let viewController = storyboard.instantiateViewController(withIdentifier: "RecipiesList") as! RecipiesListViewController
-//        
-//        viewController.
-//        self.navigationController?.pushViewController(viewController, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "RecipieDetail") as! RecipieViewController
+
+        let recipie = recipies[indexPath.row]
+
+        viewController.recipie = recipie
+
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
     
 }

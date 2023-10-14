@@ -96,7 +96,7 @@ extension SearchRecipiesViewController: UITableViewDataSource {
         
         let food = ingredients[indexPath.row]
         
-        cell.textLabel?.text = food
+        cell.textLabel?.text = "- \(food)"
         
         return cell
     }
@@ -109,7 +109,7 @@ extension SearchRecipiesViewController: UITextFieldDelegate {
             return true
         }
         if text == "" {
-            self.textSearch.placeholder = "Lemon, Cheese, Sausages..."
+            self.textSearch.placeholder = "Lemon, Cheese, Tofu..."
         }
         
         return true

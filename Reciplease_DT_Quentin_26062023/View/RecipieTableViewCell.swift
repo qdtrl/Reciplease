@@ -24,27 +24,30 @@ class RecipieTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func update(recipie: Recipie) {
+    func configure(recipie: Recipie) {
         guard let url = recipie.image else {
             return
         }
-        if let imageUrl = URL(string: url) {
-            // Use URLSession to download the image data asynchronously
-            URLSession.shared.dataTask(with: imageUrl) { (data, response, error) in
-                if let error = error {
-                    // Handle any errors that occur during the download
-                    print("Error downloading image: \(error.localizedDescription)")
-                    return
-                }
-                
-                if let data = data, let image = UIImage(data: data) {
-                    DispatchQueue.main.async { [ weak self ] in
-                        self?.imageRecipie.image = image
-                        self?.timerRecipie.text = "\(recipie.time)"
-                        self?.titleRecipie.text = recipie.title
-                    }
-                }
+        guard let url = URL(string: url) else { return }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if error != nil {
+                print("Failed fetching image:", error as Any)
+                return
             }
-        }
+
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                print("Not a proper HTTPURLResponse or statusCode")
+                return
+            }
+
+            DispatchQueue.main.async {
+                self.imageRecipie.image = UIImage(data: data!)
+            }
+        }.resume()
+        
+        
+        self.timerRecipie.text = "\(recipie.time) minute(s)"
+        self.titleRecipie.text = recipie.title
+
     }
 }
