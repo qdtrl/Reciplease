@@ -76,10 +76,10 @@ final class RecipieViewController: UIViewController {
                     return
                 }
                 
-                if let data = data, let image = UIImage(data: data) {
+                if let data = data, let image = UIImage(data: data), let time = self.recipie?.time {
                     DispatchQueue.main.async { [ weak self ] in
                         self?.image.image = image
-                        self?.timer.text = "\(String(describing: self?.recipie?.time))"
+                        self?.timer.text = "\(time)"
                         self?.titleLabel.text = self?.recipie?.title 
                     }
                 } else {
