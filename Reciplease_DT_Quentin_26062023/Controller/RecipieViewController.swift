@@ -12,7 +12,7 @@ final class RecipieViewController: UIViewController {
     let coreDataStack = CoreDataStack.shared
     let recipieRepository = RecipieRepository()
 
-    var recipie: Recipie?
+    var recipie: RecipeStruc?
 
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var timer: UILabel!
@@ -21,70 +21,75 @@ final class RecipieViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     
-    
     @IBAction func actionFavoriteButton(_ sender: UIButton) {
-        guard let isFavorite = recipie?.isFavorite else {
-            return
-        }
-        
+        guard let isFavorite = recipie?.isFavorite else { return }
         if (isFavorite) {
-            recipieRepository.remove(recipie: recipie!)
+            guard let idString = recipie?.id else { return }
+            recipieRepository.remove(id: idString)
+            favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
         } else {
             recipieRepository.addRecipie(recipieInit: recipie!)
+            favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }
     }
 
     @IBAction func actionRedirectionButton(_ sender: UIButton) {
-        guard let url = URL(string: String((self.recipie?.redirection)!)) else {
-            return
-        }
+        guard let link = self.recipie?.redirection else { return }
+        
+        guard let url = URL(string: link) else { return }
         
         UIApplication.shared.open(url)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkIfFavorite()
         updateView()
         tableView.reloadData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-//        updateView()
-//        tableView.reloadData()
-    }
-    
-    private func addFavorite() {
-        
-        
+    private func checkIfFavorite() {
+        guard let id = self.recipie?.id else { return }
+        var fav: Bool = false
+        recipieRepository.getRecipieById(id: id, callback: { [weak self] recipie in
+            if recipie.isFavorite {
+                fav = true
+            }
+         })
+        if fav {
+            self.favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        }
     }
     
     private func updateView() {
-        guard let url = self.recipie?.image else {
-            return
-        }
-        guard let url = URL(string: url) else { return }
-        URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if error != nil {
-                print("Failed fetching image:", error as Any)
-                return
-            }
-
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                print("Not a proper HTTPURLResponse or statusCode")
-                return
-            }
-
-            DispatchQueue.main.async { [ weak self ] in
-                self?.image.image = UIImage(data: data!)
-                guard let time = self?.recipie?.time else {
+        guard let link = self.recipie?.image else { return }
+                
+        if let url = URL(string: link) {
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let error = error {
+                    print("Failed fetching image:", error )
                     return
                 }
-                self?.timer.text = "\(time)"
-                self?.titleLabel.text = self?.recipie?.title
-            }
-        }.resume()                        
+                
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    print("Not a proper HTTPURLResponse or statusCode")
+                    return
+                }
+                
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async { [ weak self ] in
+                        self?.image.image = image
+                        self?.timer.text = "\(String(describing: self?.recipie?.time))"
+                        self?.titleLabel.text = self?.recipie?.title 
+                    }
+                } else {
+                    print("Failed to create UIImage from data or data is nil.")
+                }
+            }.resume()
+        } else {
+            print("Failed to create URL from link or link is nil.")
+        }
     }
-
 }
 
 extension RecipieViewController: UITableViewDataSource, UITableViewDelegate {
@@ -93,17 +98,17 @@ extension RecipieViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (recipie?.instructions?.split(separator: ", ").count)!
+        guard let instructions = recipie?.instructions else { return 0 }
+        
+        return instructions.split(separator: ", ").count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "instructionCell", for: indexPath)
         
-        let instruction = recipie?.instructions?.split(separator: ",")[indexPath.row]
+        guard let instructions = recipie?.instructions else { return UITableViewCell() }
         
-        guard let instruction = instruction else {
-            return UITableViewCell()
-        }
+        let instruction = instructions.split(separator: ",")[indexPath.row]
         
         cell.textLabel?.text = "- \(instruction)"
         

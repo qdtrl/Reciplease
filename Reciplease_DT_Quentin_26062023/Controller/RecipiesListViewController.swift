@@ -15,7 +15,7 @@ class RecipiesListViewController: UIViewController {
     var displayFavorites = true
     var ingredients: [String] = []
 
-    private var recipies: [Recipie] = []
+    private var recipies: [RecipeStruc] = []
 
     @IBOutlet weak var emptyResults: UILabel!
     @IBOutlet weak var tableView: UITableView!
@@ -42,25 +42,14 @@ class RecipiesListViewController: UIViewController {
                     return
                 }
             
-                let coreDataStack = CoreDataStack.shared
-                recipiesData.hits.forEach{hitResponse in
-                    
-                    let recipie = Recipie(context: coreDataStack.viewContext)
-                    
-                    recipie.id = hitResponse.recipe.label
-                    recipie.title = hitResponse.recipe.label
-                    recipie.instructions = hitResponse.recipe.ingredientLines.joined(separator: ",")
-                    recipie.image = hitResponse.recipe.image
-                    recipie.redirection = hitResponse.recipe.uri
-                    recipie.isFavorite = false
-                    recipie.time = hitResponse.recipe.totalTime
-
-                    self.recipies.append(recipie)
+                self.recipies = recipiesData.hits.map { hit -> RecipeStruc in
+                    RecipeStruc(from: hit)
                 }
                 
                 self.update(displayFavorites: false)
             }
         }
+        tableView.reloadData()
     }
     
     func update(displayFavorites: Bool) {

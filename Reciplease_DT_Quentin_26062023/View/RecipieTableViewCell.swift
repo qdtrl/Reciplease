@@ -24,11 +24,9 @@ class RecipieTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configure(recipie: Recipie) {
-        guard let url = recipie.image else {
-            return
-        }
-        guard let url = URL(string: url) else { return }
+    func configure(recipie: RecipeStruc) {
+        guard let url = URL(string: recipie.image) else { return }
+        
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             if error != nil {
                 print("Failed fetching image:", error as Any)

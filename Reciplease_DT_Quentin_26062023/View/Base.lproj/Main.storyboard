@@ -342,14 +342,14 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="373" height="146.66666666666666"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.80000000000000004" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cDD-T1-hzM" userLabel="Image">
-                                                        <rect key="frame" x="-10" y="0.0" width="393" height="146.66666666666666"/>
+                                                        <rect key="frame" x="-30" y="0.0" width="433" height="146.66666666666666"/>
                                                     </imageView>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstItem="cDD-T1-hzM" firstAttribute="leading" secondItem="Bls-Xx-ESk" secondAttribute="leading" constant="-10" id="Gcc-at-mce"/>
+                                                    <constraint firstItem="cDD-T1-hzM" firstAttribute="leading" secondItem="Bls-Xx-ESk" secondAttribute="leading" constant="-30" id="Gcc-at-mce"/>
                                                     <constraint firstItem="cDD-T1-hzM" firstAttribute="top" secondItem="Bls-Xx-ESk" secondAttribute="top" id="UK9-Zk-X6z"/>
-                                                    <constraint firstAttribute="trailing" secondItem="cDD-T1-hzM" secondAttribute="trailing" constant="-10" id="hBb-O7-NdZ"/>
+                                                    <constraint firstAttribute="trailing" secondItem="cDD-T1-hzM" secondAttribute="trailing" constant="-30" id="hBb-O7-NdZ"/>
                                                     <constraint firstAttribute="bottom" secondItem="cDD-T1-hzM" secondAttribute="bottom" id="qit-zH-Qxc"/>
                                                 </constraints>
                                             </view>

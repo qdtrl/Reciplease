@@ -12,14 +12,14 @@ class SearchRecipiesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        clearButton.isHidden = true
-        searchButton.isEnabled = false
+        clearButton.isHidden = ingredients.count == 0
+        searchButton.isEnabled = ingredients.count > 0
         tableView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        clearButton.isHidden = true
+        clearButton.isHidden = ingredients.count == 0
         searchButton.isEnabled = ingredients.count > 0
         tableView.reloadData()
     }

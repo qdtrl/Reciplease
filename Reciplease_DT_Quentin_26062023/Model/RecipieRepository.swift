@@ -17,11 +17,16 @@ final class RecipieRepository {
     }
     
     
-    func addRecipie(recipieInit: Recipie){
-        var recipie = Recipie(context: coreDataStack.viewContext)
-        recipie = recipieInit
-        
+    func addRecipie(recipieInit: RecipeStruc){
+        let recipie = Recipie(context: coreDataStack.viewContext)
+        recipie.id = recipieInit.id
+        recipie.title = recipieInit.title
+        recipie.image = recipieInit.image
+        recipie.time = recipieInit.time
+        recipie.instructions = recipieInit.instructions
+        recipie.redirection = recipieInit.redirection
         recipie.isFavorite = true
+
         do {
             try coreDataStack.viewContext.save()
             print("saved success")
@@ -30,39 +35,53 @@ final class RecipieRepository {
         }
     }
     
-    func getRecipies(callback: @escaping ([Recipie]) -> Void) {
+    func getRecipies(callback: @escaping ([RecipeStruc]) -> Void) {
         let request: NSFetchRequest<Recipie> = Recipie.fetchRequest()
-        
         guard let recipies = try? coreDataStack.viewContext.fetch(request) else {
             callback([])
             return
         }
         
-        callback(recipies)
+        callback(recipies.map { recipie -> RecipeStruc in
+            RecipeStruc(from: recipie)
+        })
     }
     
-    func getRecipieById(recipie: Recipe, callback: @escaping (Recipie) -> Void) {
+    func getRecipieById(id: String, callback: @escaping (RecipeStruc) -> Void) {
         let request: NSFetchRequest<Recipie> = Recipie.fetchRequest()
         
-        let predicate = NSPredicate(format: "id", id)
-        
-        request.predicate = predicate
+        request.predicate = NSPredicate(format: "id == %@", id)
         
         guard let recipies = try? coreDataStack.viewContext.fetch(request) else {
-            callback(recipie)
+            callback(RecipeStruc(from: Recipie()))
             return
         }
         
-        callback(recipies)
-    }
-    
-    func remove(recipie: Recipie) {
-        coreDataStack.viewContext.delete(recipie)
-        do {
-            try coreDataStack.viewContext.save()
-        } catch {
-            print("We were unable to remove \(recipie.description)")
+        if recipies.count > 0 {
+            if let recipie = recipies.first {
+                let result = RecipeStruc(from: recipie)
+                callback(result)
+                return
+            }
         }
     }
     
+    func remove(id: String) {
+        let request: NSFetchRequest<Recipie> = Recipie.fetchRequest()
+        
+        request.predicate = NSPredicate(format: "id == %@", id)
+        
+        do {
+           let item = try coreDataStack.viewContext.fetch(request)
+            if let itemToDelete = item.first {
+                coreDataStack.viewContext.delete(itemToDelete)
+                try coreDataStack.viewContext.save()
+                print("Deleted item with ID \(id)")
+            } else {
+                print("No item found with ID \(id)")
+            }
+        } catch {
+            print("Error deleting item: \(error)")
+        }
+    }
 }
