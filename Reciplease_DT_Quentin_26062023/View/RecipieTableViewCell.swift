@@ -11,7 +11,9 @@ class RecipieTableViewCell: UITableViewCell {
 
     @IBOutlet weak var imageRecipie: UIImageView!
     @IBOutlet weak var titleRecipie: UILabel!
+    @IBOutlet weak var subtitleRecipie: UILabel!
     @IBOutlet weak var timerRecipie: UILabel!
+    @IBOutlet weak var ratesRecipie: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,6 +24,21 @@ class RecipieTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    private func getTimeIntoString(time:Int16) -> String {
+        var timeInString: String
+        if time > 60 {
+            timeInString = "\(time/60)h"
+            if time % 60 < 10 {
+                timeInString += "0\(time % 60)"
+            } else {
+                timeInString += "\(time % 60)"
+            }
+        } else {
+            timeInString = "\(time)"
+        }
+        return timeInString
     }
     
     func configure(recipie: RecipeStruc) {
@@ -44,8 +61,10 @@ class RecipieTableViewCell: UITableViewCell {
         }.resume()
         
         
-        self.timerRecipie.text = "\(recipie.time) minute(s)"
+        self.timerRecipie.text = getTimeIntoString(time: recipie.time)
         self.titleRecipie.text = recipie.title
+        self.subtitleRecipie.text = recipie.subtitle
+        self.ratesRecipie.text = "\(recipie.yield)"
 
     }
 }

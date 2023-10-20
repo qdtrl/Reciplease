@@ -46,7 +46,7 @@ class SearchRecipiesViewController: UIViewController {
             searchButton.isEnabled = true
             tableView.reloadData()
         } else {
-            alert(title: "Ajout Impossible", message: "Veuillez rentrer un ingredient")
+            alert(title: "Unable to add", message: "Please enter an ingredient")
         }
        
     }
@@ -96,7 +96,7 @@ extension SearchRecipiesViewController: UITableViewDataSource {
         
         let food = ingredients[indexPath.row]
         
-        cell.textLabel?.text = "- \(food)"
+        cell.textLabel?.text = "- \(food.capitalized)"
         
         return cell
     }

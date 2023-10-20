@@ -38,7 +38,7 @@ class RecipiesListViewController: UIViewController {
         } else {
             recipiesService.getRecipes(foods: ingredients.joined(separator: ",").lowercased()) { (success, recipiesData) in
                 guard let recipiesData = recipiesData, success == true else {
-                    self.alert(title: "Connection Impossible", message: "Veuillez vous connecter à Internet")
+                    self.alert(title: "Unable to connect", message: "Please connect to the Internet")
                     return
                 }
             
@@ -55,7 +55,7 @@ class RecipiesListViewController: UIViewController {
     func update(displayFavorites: Bool) {
         DispatchQueue.main.async { [ weak self ] in
             if self?.recipies.count == 0 {
-                self?.emptyResults.text = displayFavorites ? "Aucune recette favorite, ajoutez en d'abord via la recherche" : "Aucun résultat avec votre combinaison d'ingrédients"
+                self?.emptyResults.text = displayFavorites ? "No favorite recipes, add some first via search" : "No results with your combination of ingredients"
                 self?.emptyResults.isHidden = false
             } else {
                 self?.tableView.reloadData()
@@ -68,6 +68,10 @@ class RecipiesListViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Ok", style: .default) {
             action in
             NSLog(message);
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = storyboard.instantiateViewController(withIdentifier: "SearchRecipies") as! SearchRecipiesViewController
+
+            self.navigationController?.pushViewController(viewController, animated: true)
         })
 
         present(alert, animated: true)

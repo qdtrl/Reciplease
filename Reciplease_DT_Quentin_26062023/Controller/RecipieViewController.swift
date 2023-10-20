@@ -9,7 +9,6 @@ import UIKit
 import CoreData
 
 final class RecipieViewController: UIViewController {
-    let coreDataStack = CoreDataStack.shared
     let recipieRepository = RecipieRepository()
 
     var recipie: RecipeStruc?
@@ -18,17 +17,22 @@ final class RecipieViewController: UIViewController {
     @IBOutlet weak var timer: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var favoriteButton: UIButton!
-
+    @IBOutlet weak var subtitleLabel: UILabel!
+    @IBOutlet weak var yielLabel: UILabel!
+    
     @IBOutlet weak var tableView: UITableView!
     
     @IBAction func actionFavoriteButton(_ sender: UIButton) {
         guard let isFavorite = recipie?.isFavorite else { return }
+                
         if (isFavorite) {
             guard let idString = recipie?.id else { return }
             recipieRepository.remove(id: idString)
+            recipie?.isFavorite = false
             favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
         } else {
             recipieRepository.addRecipie(recipieInit: recipie!)
+            recipie?.isFavorite = true
             favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }
     }
@@ -50,15 +54,27 @@ final class RecipieViewController: UIViewController {
     
     private func checkIfFavorite() {
         guard let id = self.recipie?.id else { return }
-        var fav: Bool = false
-        recipieRepository.getRecipieById(id: id, callback: { [weak self] recipie in
+
+        recipieRepository.getRecipieById(id: id, callback: {[weak self] recipie in
             if recipie.isFavorite {
-                fav = true
+                self?.favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
             }
          })
-        if fav {
-            self.favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+    }
+    
+    private func getTimeIntoString(time:Int16) -> String {
+        var timeInString: String
+        if time > 60 {
+            timeInString = "\(time/60)h"
+            if time % 60 < 10 {
+                timeInString += "0\(time % 60)"
+            } else {
+                timeInString += "\(time % 60)"
+            }
+        } else {
+            timeInString = "\(time)m"
         }
+        return timeInString
     }
     
     private func updateView() {
@@ -76,11 +92,13 @@ final class RecipieViewController: UIViewController {
                     return
                 }
                 
-                if let data = data, let image = UIImage(data: data), let time = self.recipie?.time {
+                if let data = data, let image = UIImage(data: data), let time = self.recipie?.time, let yield = self.recipie?.yield {
                     DispatchQueue.main.async { [ weak self ] in
                         self?.image.image = image
-                        self?.timer.text = "\(time)"
-                        self?.titleLabel.text = self?.recipie?.title 
+                        self?.timer.text = self!.getTimeIntoString(time: time)
+                        self?.yielLabel.text = "\(yield)"
+                        self?.titleLabel.text = self?.recipie?.title
+                        self?.subtitleLabel.text = self?.recipie?.subtitle
                     }
                 } else {
                     print("Failed to create UIImage from data or data is nil.")

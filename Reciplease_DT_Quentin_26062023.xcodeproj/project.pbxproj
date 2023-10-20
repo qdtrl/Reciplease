@@ -26,6 +26,7 @@
 		3CCBC27C2A6EDD2100B2895A /* RecipiesSearch.json in Resources */ = {isa = PBXBuildFile; fileRef = 3CCBC27B2A6EDD2100B2895A /* RecipiesSearch.json */; };
 		3CCBC2852A6EDDA500B2895A /* URLSessionFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCBC2842A6EDDA500B2895A /* URLSessionFake.swift */; };
 		3CCBC2872A6EDDBB00B2895A /* FakeResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCBC2862A6EDDBB00B2895A /* FakeResponseData.swift */; };
+		3CF391152AE2499D002219EC /* RecipieRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF391142AE2499D002219EC /* RecipieRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		3CCBC2862A6EDDBB00B2895A /* FakeResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeResponseData.swift; sourceTree = "<group>"; };
 		3CDD3F2C2A719A590019B077 /* Reciplease_DT_Quentin_26062023.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Reciplease_DT_Quentin_26062023.xctestplan; sourceTree = "<group>"; };
 		3CE7E1062A6193EC0017FF06 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		3CF391142AE2499D002219EC /* RecipieRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 		3CCBC2722A6EDC7000B2895A /* Reciplease_DT_Quentin_26062023Tests */ = {
 			isa = PBXGroup;
 			children = (
+				3CF391132AE24969002219EC /* RecipiesRepositoryTests */,
 				3CCBC27A2A6EDCEE00B2895A /* RecipiesServiceTests */,
 				3CCBC2842A6EDDA500B2895A /* URLSessionFake.swift */,
 				3CCBC2862A6EDDBB00B2895A /* FakeResponseData.swift */,
@@ -183,6 +186,14 @@
 				3CC027062A74FF5900F385B1 /* RecipiesServiceTests.swift */,
 			);
 			path = RecipiesServiceTests;
+			sourceTree = "<group>";
+		};
+		3CF391132AE24969002219EC /* RecipiesRepositoryTests */ = {
+			isa = PBXGroup;
+			children = (
+				3CF391142AE2499D002219EC /* RecipieRepository.swift */,
+			);
+			path = RecipiesRepositoryTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -309,6 +320,7 @@
 				3CC027072A74FF5900F385B1 /* RecipiesServiceTests.swift in Sources */,
 				3CCBC2852A6EDDA500B2895A /* URLSessionFake.swift in Sources */,
 				3CCBC2872A6EDDBB00B2895A /* FakeResponseData.swift in Sources */,
+				3CF391152AE2499D002219EC /* RecipieRepository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
