@@ -20,13 +20,14 @@ class SearchRecipiesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         clearButton.isHidden = ingredients.count == 0
+        infoNoIngredient.isHidden = ingredients.count != 0
         searchButton.isEnabled = ingredients.count > 0
         tableView.reloadData()
     }
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var clearButton: UIButton!
-    
+    @IBOutlet weak var infoNoIngredient: UILabel!
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var textSearch: UITextField!
     
@@ -44,6 +45,7 @@ class SearchRecipiesViewController: UIViewController {
             textSearch.resignFirstResponder()
             clearButton.isHidden = false
             searchButton.isEnabled = true
+            infoNoIngredient.isHidden = true
             tableView.reloadData()
         } else {
             alert(title: "Unable to add", message: "Please enter an ingredient")
@@ -55,6 +57,7 @@ class SearchRecipiesViewController: UIViewController {
         ingredients = []
         clearButton.isHidden = true
         searchButton.isEnabled = false
+        infoNoIngredient.isHidden = false
         tableView.reloadData()
     }
     

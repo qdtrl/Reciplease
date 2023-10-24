@@ -62,21 +62,6 @@ final class RecipieViewController: UIViewController {
          })
     }
     
-    private func getTimeIntoString(time:Int16) -> String {
-        var timeInString: String
-        if time > 60 {
-            timeInString = "\(time/60)h"
-            if time % 60 < 10 {
-                timeInString += "0\(time % 60)"
-            } else {
-                timeInString += "\(time % 60)"
-            }
-        } else {
-            timeInString = "\(time)m"
-        }
-        return timeInString
-    }
-    
     private func updateView() {
         guard let link = self.recipie?.image else { return }
                 
@@ -95,7 +80,7 @@ final class RecipieViewController: UIViewController {
                 if let data = data, let image = UIImage(data: data), let time = self.recipie?.time, let yield = self.recipie?.yield {
                     DispatchQueue.main.async { [ weak self ] in
                         self?.image.image = image
-                        self?.timer.text = self!.getTimeIntoString(time: time)
+                        self?.timer.text = getTimeIntoString(time: time)
                         self?.yielLabel.text = "\(yield)"
                         self?.titleLabel.text = self?.recipie?.title
                         self?.subtitleLabel.text = self?.recipie?.subtitle

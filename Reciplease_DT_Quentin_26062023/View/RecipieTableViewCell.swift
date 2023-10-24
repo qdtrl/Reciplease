@@ -24,22 +24,7 @@ class RecipieTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-    
-    private func getTimeIntoString(time:Int16) -> String {
-        var timeInString: String
-        if time > 60 {
-            timeInString = "\(time/60)h"
-            if time % 60 < 10 {
-                timeInString += "0\(time % 60)"
-            } else {
-                timeInString += "\(time % 60)"
-            }
-        } else {
-            timeInString = "\(time)"
-        }
-        return timeInString
-    }
+    } 
     
     func configure(recipie: RecipeStruc) {
         guard let url = URL(string: recipie.image) else { return }

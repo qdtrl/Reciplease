@@ -8,7 +8,18 @@
 import Foundation
 import UIKit
 
-class UsefullFunc {
-    
+func getTimeIntoString(time:Int16) -> String {
+    var timeInString: String
+    if time > 60 {
+        timeInString = "\(time/60)h"
+        if time % 60 < 10 {
+            timeInString += "0\(time % 60)"
+        } else {
+            timeInString += "\(time % 60)"
+        }
+    } else {
+        timeInString = "\(time)m"
+    }
+    return timeInString
 }
 
