@@ -12,17 +12,15 @@ class SearchRecipiesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        clearButton.isHidden = ingredients.count == 0
-        searchButton.isEnabled = ingredients.count > 0
+        
         tableView.dataSource = self
+        textSearch.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        clearButton.isHidden = ingredients.count == 0
-        infoNoIngredient.isHidden = ingredients.count != 0
-        searchButton.isEnabled = ingredients.count > 0
-        tableView.reloadData()
+        
+        viewUpdate()
     }
     
     @IBOutlet weak var tableView: UITableView!
@@ -31,7 +29,7 @@ class SearchRecipiesViewController: UIViewController {
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var textSearch: UITextField!
     
-    @IBAction func dismissKeyboad(_ sender: Any) {
+    @IBAction func dismissKeyboad(_ sender: UITapGestureRecognizer) {
         textSearch.resignFirstResponder()
     }
     
@@ -43,10 +41,8 @@ class SearchRecipiesViewController: UIViewController {
             ingredients.append(ingredient)
             textSearch.text = ""
             textSearch.resignFirstResponder()
-            clearButton.isHidden = false
-            searchButton.isEnabled = true
-            infoNoIngredient.isHidden = true
-            tableView.reloadData()
+
+            viewUpdate()
         } else {
             alert(title: "Unable to add", message: "Please enter an ingredient")
         }
@@ -55,10 +51,8 @@ class SearchRecipiesViewController: UIViewController {
     
     @IBAction func clearSearch(_ sender: Any) {
         ingredients = []
-        clearButton.isHidden = true
-        searchButton.isEnabled = false
-        infoNoIngredient.isHidden = false
-        tableView.reloadData()
+        
+        viewUpdate()
     }
     
 
@@ -73,7 +67,7 @@ class SearchRecipiesViewController: UIViewController {
         }
     }
     
-    func alert (title:String, message:String) {
+    private func alert (title:String, message:String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default) {
             action in
@@ -81,6 +75,13 @@ class SearchRecipiesViewController: UIViewController {
         })
 
         present(alert, animated: true)
+    }
+    
+    private func viewUpdate() {
+        clearButton.isHidden = ingredients.count == 0
+        searchButton.isEnabled = ingredients.count > 0
+        infoNoIngredient.isHidden = ingredients.count > 0
+        tableView.reloadData()
     }
 }
 
@@ -107,12 +108,17 @@ extension SearchRecipiesViewController: UITableViewDataSource {
 
 extension SearchRecipiesViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textSearch.resignFirstResponder()
+        textField.resignFirstResponder()
         guard let text = textSearch.text else {
             return true
         }
         if text == "" {
             self.textSearch.placeholder = "Lemon, Cheese, Tofu..."
+        } else {
+            ingredients.append(text)
+            textSearch.text = ""
+            
+            viewUpdate()
         }
         
         return true

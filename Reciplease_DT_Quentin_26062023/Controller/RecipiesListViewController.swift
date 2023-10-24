@@ -22,8 +22,6 @@ class RecipiesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,10 +47,9 @@ class RecipiesListViewController: UIViewController {
                 self.update(displayFavorites: false)
             }
         }
-        tableView.reloadData()
     }
     
-    func update(displayFavorites: Bool) {
+    private func update(displayFavorites: Bool) {
         DispatchQueue.main.async { [ weak self ] in
             if self?.recipies.count == 0 {
                 self?.emptyResults.text = displayFavorites ? "No favorite recipes, add some first via search" : "No results with your combination of ingredients"
@@ -63,7 +60,7 @@ class RecipiesListViewController: UIViewController {
         }
     }
     
-    func alert (title:String, message:String) {
+    private func alert (title:String, message:String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ok", style: .default) {
             action in
@@ -76,18 +73,17 @@ class RecipiesListViewController: UIViewController {
 
         present(alert, animated: true)
     }
-
 }
 
 extension RecipiesListViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return recipies.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "RecipieCell", for: indexPath)as? RecipieTableViewCell else {
             return UITableViewCell()
@@ -103,12 +99,11 @@ extension RecipiesListViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: "RecipieDetail") as! RecipieViewController
-
+        
         let recipie = recipies[indexPath.row]
-
+        
         viewController.recipie = recipie
-
+        
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
 }
