@@ -40,7 +40,6 @@ struct RecipeStruc {
         } else {
             self.subtitle = ""
         }
-        
     }
     
 //  si on traduit depuis la base de donnée
@@ -51,14 +50,14 @@ struct RecipeStruc {
             let subtitle = coreDataObject.subtitle,
             let redirection = coreDataObject.redirection,
             let instructions = coreDataObject.instructions {
-            self.image = image
-            self.title = title
-            self.time = coreDataObject.time
             self.id = id
-            self.yield = coreDataObject.yield
+            self.title = title
             self.subtitle = subtitle
-            self.redirection = redirection
             self.isFavorite = coreDataObject.isFavorite
+            self.time = coreDataObject.time
+            self.image = image
+            self.yield = coreDataObject.yield
+            self.redirection = redirection
             self.instructions = instructions
         } else {
             self.image = ""

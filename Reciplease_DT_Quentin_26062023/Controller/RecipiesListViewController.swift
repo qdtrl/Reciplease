@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 class RecipiesListViewController: UIViewController {
     private let recipiesRepository = RecipieRepository()
     private let recipiesService = RecipiesService()
@@ -22,6 +21,7 @@ class RecipiesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,6 +47,7 @@ class RecipiesListViewController: UIViewController {
                 self.update(displayFavorites: false)
             }
         }
+        tableView.reloadData()
     }
     
     private func update(displayFavorites: Bool) {
@@ -65,10 +66,8 @@ class RecipiesListViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Ok", style: .default) {
             action in
             NSLog(message);
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let viewController = storyboard.instantiateViewController(withIdentifier: "SearchRecipies") as! SearchRecipiesViewController
 
-            self.navigationController?.pushViewController(viewController, animated: true)
+            self.navigationController?.popViewController(animated: true)
         })
 
         present(alert, animated: true)

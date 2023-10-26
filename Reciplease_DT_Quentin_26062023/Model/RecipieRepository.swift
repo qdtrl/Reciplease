@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 final class RecipieRepository {
     
@@ -16,15 +17,31 @@ final class RecipieRepository {
         self.coreDataStack = coreDataStack
     }
     
+    func deleteAllData() {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Recipie")
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try coreDataStack.viewContext.fetch(fetchRequest)
+            for object in results {
+                guard let objectData = object as? NSManagedObject else {continue}
+                coreDataStack.viewContext.delete(objectData)
+                try coreDataStack.viewContext.save()
+            }
+        } catch let error {
+            print("Detele all data in Recipie error :", error)
+        }
+    }
     
     func addRecipie(recipieInit: RecipeStruc){
         let recipie = Recipie(context: coreDataStack.viewContext)
         recipie.id = recipieInit.id
         recipie.title = recipieInit.title
+        recipie.subtitle = recipieInit.subtitle
         recipie.image = recipieInit.image
         recipie.time = recipieInit.time
         recipie.instructions = recipieInit.instructions
         recipie.redirection = recipieInit.redirection
+        recipie.yield = recipieInit.yield
         recipie.isFavorite = true
 
         do {
@@ -36,8 +53,7 @@ final class RecipieRepository {
     }
     
     func getRecipies(callback: @escaping ([RecipeStruc]) -> Void) {
-        let request: NSFetchRequest<Recipie> = Recipie.fetchRequest()
-        guard let recipies = try? coreDataStack.viewContext.fetch(request) else {
+        guard let recipies = try? coreDataStack.viewContext.fetch(Recipie.fetchRequest()) else {
             callback([])
             return
         }
@@ -68,9 +84,9 @@ final class RecipieRepository {
     
     func remove(id: String) {
         let request: NSFetchRequest<Recipie> = Recipie.fetchRequest()
-        
+
         request.predicate = NSPredicate(format: "id == %@", id)
-        
+
         do {
            let item = try coreDataStack.viewContext.fetch(request)
             if let itemToDelete = item.first {

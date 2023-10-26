@@ -24,7 +24,7 @@ final class RecipieViewController: UIViewController {
     
     @IBAction func actionFavoriteButton(_ sender: UIButton) {
         guard let isFavorite = recipie?.isFavorite else { return }
-                
+
         if (isFavorite) {
             guard let idString = recipie?.id else { return }
             recipieRepository.remove(id: idString)
@@ -47,6 +47,7 @@ final class RecipieViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         checkIfFavorite()
         updateView()
         tableView.reloadData()
@@ -64,7 +65,7 @@ final class RecipieViewController: UIViewController {
     
     private func updateView() {
         guard let link = self.recipie?.image else { return }
-                
+
         if let url = URL(string: link) {
             URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if let error = error {
