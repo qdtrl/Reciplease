@@ -40,6 +40,9 @@ class SearchRecipiesViewController: UIViewController {
         if ingredient != "" {
             ingredients.append(ingredient)
             textSearch.text = ""
+            textSearch.accessibilityHint = "Touch it to add ingredient"
+            textSearch.accessibilityLabel = "Add the ingredient for your recipie"
+            textSearch.accessibilityTraits = .button
             textSearch.resignFirstResponder()
 
             viewUpdate()
@@ -50,6 +53,9 @@ class SearchRecipiesViewController: UIViewController {
     }
     
     @IBAction func clearSearch(_ sender: Any) {
+        self.accessibilityHint = "Touch it will delete the list of ingredients"
+        self.accessibilityLabel = "Clear Ingredients"
+        self.accessibilityTraits = .button
         ingredients = []
         
         viewUpdate()
@@ -57,6 +63,9 @@ class SearchRecipiesViewController: UIViewController {
     
 
     @IBAction func searchButton(_ sender: UIButton) {
+        self.accessibilityHint = "Touch it to search recipie"
+        self.accessibilityLabel = "Will search recipies with the listed ingredients"
+        self.accessibilityTraits = .button
         if ingredients.count > 0 {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let viewController = storyboard.instantiateViewController(withIdentifier: "RecipiesList") as! RecipiesListViewController
@@ -101,6 +110,8 @@ extension SearchRecipiesViewController: UITableViewDataSource {
         let food = ingredients[indexPath.row]
         
         cell.textLabel?.text = "- \(food.capitalized)"
+        cell.accessibilityValue = "\(food.capitalized)"
+        cell.accessibilityLabel = "\(food.capitalized) will be one of ingredients for your recipie"
         
         return cell
     }

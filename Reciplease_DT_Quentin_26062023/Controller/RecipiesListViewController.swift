@@ -92,6 +92,11 @@ extension RecipiesListViewController: UITableViewDataSource, UITableViewDelegate
         
         cell.configure(recipie: recipie)
         
+        cell.accessibilityHint = "Item of Recipie List"
+        cell.accessibilityLabel = "\(recipie.title)"
+        cell.accessibilityTraits = .image
+        cell.accessibilityValue = "Medium"
+        
         return cell
     }
     

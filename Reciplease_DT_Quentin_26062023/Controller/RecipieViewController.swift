@@ -39,7 +39,9 @@ final class RecipieViewController: UIViewController {
 
     @IBAction func actionRedirectionButton(_ sender: UIButton) {
         guard let link = self.recipie?.redirection else { return }
-        
+        self.accessibilityHint = "Button for accessing instructions recipe"
+        self.accessibilityLabel = "Redirect to \(link)"
+        self.accessibilityTraits = .link
         guard let url = URL(string: link) else { return }
         
         UIApplication.shared.open(url)
@@ -59,6 +61,9 @@ final class RecipieViewController: UIViewController {
         recipieRepository.getRecipieById(id: id, callback: {[weak self] recipie in
             if recipie.isFavorite {
                 self?.favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                self?.favoriteButton.accessibilityHint = "Button for \(recipie.isFavorite ? "delete" : "add") the recipe to favories"
+                self?.favoriteButton.accessibilityLabel = "The Recipie is \(recipie.isFavorite ? "" : "not") in your favorite"
+                self?.favoriteButton.accessibilityTraits = .button
             }
          })
     }
@@ -81,10 +86,22 @@ final class RecipieViewController: UIViewController {
                 if let data = data, let image = UIImage(data: data), let time = self.recipie?.time, let yield = self.recipie?.yield {
                     DispatchQueue.main.async { [ weak self ] in
                         self?.image.image = image
+                        self?.image.accessibilityHint = "Image of the recipe"
+                        self?.image.accessibilityLabel = self?.recipie?.title
+                        self?.image.accessibilityTraits = .image
                         self?.timer.text = getTimeIntoString(time: time)
+                        self?.timer.accessibilityHint = "Time of recipe preparation"
+                        self?.timer.accessibilityLabel = getTimeIntoString(time: time)
                         self?.yielLabel.text = "\(yield)"
+                        self?.yielLabel.accessibilityHint = "Rate of recipe"
+                        self?.yielLabel.accessibilityLabel = "\(yield)"
+                        self?.yielLabel.accessibilityValue = "Easy"
                         self?.titleLabel.text = self?.recipie?.title
+                        self?.titleLabel.accessibilityHint = "Title of recipe"
+                        self?.titleLabel.accessibilityLabel = self?.recipie?.title
                         self?.subtitleLabel.text = self?.recipie?.subtitle
+                        self?.subtitleLabel.accessibilityHint = "# of recipe"
+                        self?.subtitleLabel.accessibilityLabel = self?.recipie?.subtitle
                     }
                 } else {
                     print("Failed to create UIImage from data or data is nil.")
@@ -115,6 +132,9 @@ extension RecipieViewController: UITableViewDataSource, UITableViewDelegate {
         let instruction = instructions.split(separator: ",")[indexPath.row]
         
         cell.textLabel?.text = "- \(instruction)"
+        cell.accessibilityHint = "Ingredient of the recipe"
+        cell.accessibilityLabel = "- \(instruction)"
+        cell.accessibilityValue = "Easy"
         
         return cell
     }
