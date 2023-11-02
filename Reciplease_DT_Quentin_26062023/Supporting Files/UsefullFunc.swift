@@ -8,18 +8,19 @@
 import Foundation
 import UIKit
 
-func getTimeIntoString(time:Int16) -> String {
-    var timeInString: String
-    if time > 60 {
-        timeInString = "\(time/60)h"
-        if time % 60 < 10 {
-            timeInString += "0\(time % 60)"
+extension Int16 {
+    func getTimeIntoString() -> String {
+        var timeInString: String
+        if self > 60 {
+            timeInString = "\(self / 60)h"
+            if self % 60 < 10 {
+                timeInString += "0\(self % 60)"
+            } else {
+                timeInString += "\(self % 60)"
+            }
         } else {
-            timeInString += "\(time % 60)"
+            timeInString = "\(self)m"
         }
-    } else {
-        timeInString = "\(time)m"
+        return timeInString
     }
-    return timeInString
 }
-

@@ -89,9 +89,9 @@ final class RecipieViewController: UIViewController {
                         self?.image.accessibilityHint = "Image of the recipe"
                         self?.image.accessibilityLabel = self?.recipie?.title
                         self?.image.accessibilityTraits = .image
-                        self?.timer.text = getTimeIntoString(time: time)
+                        self?.timer.text = time.getTimeIntoString()
                         self?.timer.accessibilityHint = "Time of recipe preparation"
-                        self?.timer.accessibilityLabel = getTimeIntoString(time: time)
+                        self?.timer.accessibilityLabel = time.getTimeIntoString()
                         self?.yielLabel.text = "\(yield)"
                         self?.yielLabel.accessibilityHint = "Rate of recipe"
                         self?.yielLabel.accessibilityLabel = "\(yield)"

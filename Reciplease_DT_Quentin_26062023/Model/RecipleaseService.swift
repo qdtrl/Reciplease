@@ -35,7 +35,10 @@ class RecipiesService {
     init(session: URLSession = URLSession(configuration: .default)) {
         self.session = session
     }
-    
+
+    //-> type Result
+    //-> URLProtocol
+    //-> Alamofire
     func getRecipes(foods: String, callBack: @escaping (Bool, RecipeResponse?) -> Void) {
         let key = Bundle.main.object(forInfoDictionaryKey: "RECIPLEASE_API_KEY") as! String
         

@@ -46,7 +46,7 @@ class RecipieTableViewCell: UITableViewCell {
         }.resume()
         
         
-        self.timerRecipie.text = getTimeIntoString(time: recipie.time)
+        self.timerRecipie.text = recipie.time.getTimeIntoString()
         self.titleRecipie.text = recipie.title
         self.subtitleRecipie.text = recipie.subtitle
         self.ratesRecipie.text = "\(recipie.yield)"

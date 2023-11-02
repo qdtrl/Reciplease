@@ -43,6 +43,8 @@ final class RecipieRepositoryTests: XCTestCase {
         
         expectation.fulfill()
         sut.deleteAllData()
+        
+        wait(for: [expectation], timeout: 0.6)
     }
     
     func testAddRecipie() {
@@ -78,6 +80,8 @@ final class RecipieRepositoryTests: XCTestCase {
             expectation.fulfill()
         }
         sut.deleteAllData()
+
+        wait(for: [expectation], timeout: 0.6)
     }
     
     func testGetRecipies() {
@@ -139,6 +143,8 @@ final class RecipieRepositoryTests: XCTestCase {
             expectation.fulfill()
         }
         sut.deleteAllData()
+
+        wait(for: [expectation], timeout: 0.6)
     }
     
     func testGetRecipieById() {
@@ -201,6 +207,8 @@ final class RecipieRepositoryTests: XCTestCase {
             expectation.fulfill()
         }
         sut.deleteAllData()
+
+        wait(for: [expectation], timeout: 0.6)
     }
     
     func testRemove() {
@@ -258,6 +266,8 @@ final class RecipieRepositoryTests: XCTestCase {
             XCTAssertEqual(recipes.first?.isFavorite, true)
             expectation.fulfill()
         }
+
+        wait(for: [expectation], timeout: 0.6)
     }
     
     func testRemoveWrongId() {
@@ -277,6 +287,8 @@ final class RecipieRepositoryTests: XCTestCase {
             expectation.fulfill()
         }
         sut.deleteAllData()
+        
+        wait(for: [expectation], timeout: 0.6)
     }
 
 }

@@ -8,9 +8,6 @@
 import UIKit
 
 class RecipiesListViewController: UIViewController {
-    private let recipiesRepository = RecipieRepository()
-    private let recipiesService = RecipiesService()
-    
     var displayFavorites = true
     var ingredients: [String] = []
 
@@ -29,12 +26,12 @@ class RecipiesListViewController: UIViewController {
         emptyResults.isHidden = true
         
         if displayFavorites {
-            recipiesRepository.getRecipies(callback: { [weak self] recipies in
+            RecipieRepository().getRecipies(callback: { [weak self] recipies in
                 self?.recipies = recipies
                 self?.update(displayFavorites: true)
              })
         } else {
-            recipiesService.getRecipes(foods: ingredients.joined(separator: ",").lowercased()) { (success, recipiesData) in
+            RecipiesService().getRecipes(foods: ingredients.joined(separator: ",").lowercased()) { (success, recipiesData) in
                 guard let recipiesData = recipiesData, success == true else {
                     self.alert(title: "Unable to connect", message: "Please connect to the Internet")
                     return
