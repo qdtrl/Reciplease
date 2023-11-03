@@ -1,0 +1,6 @@
+framework module Pods_Reciplease_DT_Quentin_26062023Tests {
+  umbrella header "Pods-Reciplease_DT_Quentin_26062023Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

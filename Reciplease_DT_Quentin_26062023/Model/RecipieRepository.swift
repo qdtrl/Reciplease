@@ -17,22 +17,28 @@ final class RecipieRepository {
         self.coreDataStack = coreDataStack
     }
     
-    func deleteAllData() {
+    func deleteAllData() -> Result<Void, Error> {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Recipie")
         fetchRequest.returnsObjectsAsFaults = false
         do {
             let results = try coreDataStack.viewContext.fetch(fetchRequest)
             for object in results {
-                guard let objectData = object as? NSManagedObject else {continue}
+                guard let objectData = object as? NSManagedObject else { continue }
                 coreDataStack.viewContext.delete(objectData)
-                try coreDataStack.viewContext.save()
             }
-        } catch let error {
-            print("Detele all data in Recipie error :", error)
+            
+            do {
+                try coreDataStack.viewContext.save()
+                return .success(())
+            } catch let saveError {
+                return .failure(saveError)
+            }
+        } catch let fetchError {
+            return .failure(fetchError)
         }
     }
     
-    func addRecipie(recipieInit: RecipeStruc){
+    func addRecipie(recipieInit: RecipeStruc) -> Result<Void, Error> {
         let recipie = Recipie(context: coreDataStack.viewContext)
         recipie.id = recipieInit.id
         recipie.title = recipieInit.title
@@ -45,22 +51,23 @@ final class RecipieRepository {
         recipie.isFavorite = true
 
         do {
-            try coreDataStack.viewContext.save()
-            print("saved success")
-        } catch {
-            print("We were unable to save \(recipie)")
+           try coreDataStack.viewContext.save()
+           return .success(())
+        } catch let error {
+           return .failure(error)
         }
     }
     
-    func getRecipies(callback: @escaping ([RecipeStruc]) -> Void) {
-        guard let recipies = try? coreDataStack.viewContext.fetch(Recipie.fetchRequest()) else {
-            callback([])
-            return
+    func getRecipies(callback: @escaping (Result<[RecipeStruc], Error>) -> Void) {
+        do {
+            let recipes = try coreDataStack.viewContext.fetch(Recipie.fetchRequest())
+            let recipeStructs = recipes.map { recipe -> RecipeStruc in
+                RecipeStruc(from: recipe)
+            }
+            callback(.success(recipeStructs))
+        } catch let error {
+            callback(.failure(error))
         }
-        
-        callback(recipies.map { recipie -> RecipeStruc in
-            RecipeStruc(from: recipie)
-        })
     }
     
     func getRecipieById(id: String, callback: @escaping (RecipeStruc) -> Void) {
@@ -82,22 +89,25 @@ final class RecipieRepository {
         }
     }
     
-    func remove(id: String) {
+    func remove(id: String, callback: @escaping (Result<Void, Error>) -> Void) {
         let request: NSFetchRequest<Recipie> = Recipie.fetchRequest()
-
         request.predicate = NSPredicate(format: "id == %@", id)
-
+        
         do {
-           let item = try coreDataStack.viewContext.fetch(request)
-            if let itemToDelete = item.first {
+            let items = try coreDataStack.viewContext.fetch(request)
+            if let itemToDelete = items.first {
                 coreDataStack.viewContext.delete(itemToDelete)
-                try coreDataStack.viewContext.save()
-                print("Deleted item with ID \(id)")
+                do {
+                    try coreDataStack.viewContext.save()
+                    callback(.success(()))
+                } catch let saveError {
+                    callback(.failure(saveError))
+                }
             } else {
-                print("No item found with ID \(id)")
+                callback(.failure(NSError()))
             }
-        } catch {
-            print("Error deleting item: \(error)")
+        } catch let error {
+            callback(.failure(error))
         }
     }
 }

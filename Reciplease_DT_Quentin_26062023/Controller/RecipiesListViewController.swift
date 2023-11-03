@@ -10,9 +10,11 @@ import UIKit
 class RecipiesListViewController: UIViewController {
     var displayFavorites = true
     var ingredients: [String] = []
+    private var nextRecipiesUrl: String = ""
 
     private var recipies: [RecipeStruc] = []
 
+    @IBOutlet weak var loader: UIActivityIndicatorView!
     @IBOutlet weak var emptyResults: UILabel!
     @IBOutlet weak var tableView: UITableView!
     
@@ -24,27 +26,55 @@ class RecipiesListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         emptyResults.isHidden = true
+        loader.hidesWhenStopped = true
         
         if displayFavorites {
-            RecipieRepository().getRecipies(callback: { [weak self] recipies in
-                self?.recipies = recipies
-                self?.update(displayFavorites: true)
-             })
+            loader.startAnimating()
+            RecipieRepository().getRecipies { result in
+                switch result {
+                case .success(let recipes):
+                    self.recipies = recipes
+                    self.update(displayFavorites: true)
+                case .failure(let error):
+                    self.alert(title: "Error fetching recipes:", message: error.localizedDescription)
+                }
+            }
         } else {
-            RecipiesService().getRecipes(foods: ingredients.joined(separator: ",").lowercased()) { (success, recipiesData) in
-                guard let recipiesData = recipiesData, success == true else {
-                    self.alert(title: "Unable to connect", message: "Please connect to the Internet")
-                    return
+            if self.ingredients.count > 0 {
+                loader.startAnimating()
+                RecipiesService().getRecipes(foods: ingredients.joined(separator: ",").lowercased()) { result in
+                    switch result {
+                    case .success(let recipiesData):
+                        self.nextRecipiesUrl = recipiesData._links.next.href
+                        self.ingredients = []
+                        self.recipies = recipiesData.hits.map { hit -> RecipeStruc in
+                            RecipeStruc(from: hit)
+                        }
+                        self.update(displayFavorites: false)
+                    case .failure(let error):
+                        self.alert(title: "Unable to connect", message: error.localizedDescription)
+                    }
                 }
-            
-                self.recipies = recipiesData.hits.map { hit -> RecipeStruc in
-                    RecipeStruc(from: hit)
-                }
-                
-                self.update(displayFavorites: false)
             }
         }
-        tableView.reloadData()
+    }
+    
+    private func getMore() {
+        if nextRecipiesUrl != "" {
+            self.loader.startAnimating()
+            RecipiesService().getNextRecipies(url: nextRecipiesUrl) { result in
+                switch result {
+                case .success(let recipiesData):
+                    self.nextRecipiesUrl = recipiesData._links.next.href
+                    self.recipies += recipiesData.hits.map { hit -> RecipeStruc in
+                        RecipeStruc(from: hit)
+                    }
+                    self.update(displayFavorites: false)
+                case .failure(let error):
+                    self.alert(title: "Unable to connect", message: error.localizedDescription)
+                }
+            }
+        }
     }
     
     private func update(displayFavorites: Bool) {
@@ -52,8 +82,10 @@ class RecipiesListViewController: UIViewController {
             if self?.recipies.count == 0 {
                 self?.emptyResults.text = displayFavorites ? "No favorite recipes, add some first via search" : "No results with your combination of ingredients"
                 self?.emptyResults.isHidden = false
+                self?.loader.stopAnimating()
             } else {
                 self?.tableView.reloadData()
+                self?.loader.stopAnimating()
             }
         }
     }
@@ -97,6 +129,12 @@ extension RecipiesListViewController: UITableViewDataSource, UITableViewDelegate
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row >= recipies.count - 1 {
+            getMore()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let viewController = storyboard.instantiateViewController(withIdentifier: "RecipieDetail") as! RecipieViewController
@@ -107,4 +145,5 @@ extension RecipiesListViewController: UITableViewDataSource, UITableViewDelegate
         
         self.navigationController?.pushViewController(viewController, animated: true)
     }
+
 }

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Szh-6N-wPq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Szh-6N-wPq">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -368,12 +369,22 @@
                                 <color key="textColor" systemColor="systemGray4Color"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="wvJ-nX-NId">
+                                <rect key="frame" x="166.66666666666666" y="396" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="TLD-52-90d"/>
+                                    <constraint firstAttribute="width" constant="60" id="e32-7g-3R3"/>
+                                </constraints>
+                                <color key="color" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="m6Y-P8-vyW"/>
                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="m6Y-P8-vyW" firstAttribute="bottom" secondItem="mks-Zn-B2d" secondAttribute="bottom" id="AZB-Eg-u6j"/>
+                            <constraint firstItem="wvJ-nX-NId" firstAttribute="centerY" secondItem="np9-iG-VMg" secondAttribute="centerY" id="DzP-4U-FDf"/>
+                            <constraint firstItem="wvJ-nX-NId" firstAttribute="centerX" secondItem="np9-iG-VMg" secondAttribute="centerX" id="MFf-bl-Fm5"/>
                             <constraint firstItem="CbO-8W-cnn" firstAttribute="centerY" secondItem="np9-iG-VMg" secondAttribute="centerY" id="eeK-0K-96Q"/>
                             <constraint firstItem="mks-Zn-B2d" firstAttribute="top" secondItem="m6Y-P8-vyW" secondAttribute="top" id="g0N-nL-VPM"/>
                             <constraint firstItem="CbO-8W-cnn" firstAttribute="centerX" secondItem="np9-iG-VMg" secondAttribute="centerX" id="nYb-lR-Z0X"/>
@@ -384,6 +395,7 @@
                     <navigationItem key="navigationItem" id="DR8-FL-W8M"/>
                     <connections>
                         <outlet property="emptyResults" destination="CbO-8W-cnn" id="HoS-Bw-Tuc"/>
+                        <outlet property="loader" destination="wvJ-nX-NId" id="egI-f9-Hqh"/>
                         <outlet property="tableView" destination="mks-Zn-B2d" id="Ee6-H2-eAQ"/>
                     </connections>
                 </viewController>

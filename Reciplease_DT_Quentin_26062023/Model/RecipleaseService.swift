@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 struct RecipeResponse: Decodable {
     struct Recipe: Decodable {
@@ -20,73 +21,60 @@ struct RecipeResponse: Decodable {
         let mealType: [String]
     }
     
+    struct Links: Decodable {
+        let next: Next
+    }
+    
+    struct Next: Decodable {
+        let href: String
+    }
+    
     struct HitResponse: Decodable {
         let recipe: Recipe
     }
-    
+    let _links: Links
     let hits: [HitResponse]
 }
 
 class RecipiesService {
-    private let ApiURL: String = "https://api.edamam.com/api/recipes/v2"
+    private let apiURL: String = "https://api.edamam.com/api/recipes/v2"
 
-    private var session: URLSession
-        
-    init(session: URLSession = URLSession(configuration: .default)) {
-        self.session = session
-    }
+    func getRecipes(foods: String, callBack: @escaping (Result<RecipeResponse, Error>) -> Void) {
+         guard let key = Bundle.main.object(forInfoDictionaryKey: "RECIPLEASE_API_KEY") as? String,
+               let id = Bundle.main.object(forInfoDictionaryKey: "RECIPLEASE_API_ID") as? String else {
+             callBack(.failure(NSError(domain: "Missing API credentials", code: 401, userInfo: nil)))
+             return
+         }
 
-    //-> type Result
-    //-> URLProtocol
-    //-> Alamofire
-    func getRecipes(foods: String, callBack: @escaping (Bool, RecipeResponse?) -> Void) {
-        let key = Bundle.main.object(forInfoDictionaryKey: "RECIPLEASE_API_KEY") as! String
-        
-        let id = Bundle.main.object(forInfoDictionaryKey: "RECIPLEASE_API_ID") as! String
-        
-        var urlComponents = URLComponents(string: ApiURL)!
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: "q", value: foods),
-            URLQueryItem(name: "type", value: "public"),
-            URLQueryItem(name: "app_id", value: id),
-            URLQueryItem(name: "app_key", value: key)
-        ]
-        
-        let url = urlComponents.url!
+         let parameters = [
+             "q": foods,
+             "type": "public",
+             "app_id": id,
+             "app_key": key,
+         ]
 
-        let request = URLRequest(url: url)
-        
-        let task = session.dataTask(with: request) { (data, response, error) in
-            // Check for any errors
-            if let error = error {
-                print("Error: \(error)")
-                callBack(false, nil)
-                return
+        AF.request(apiURL, method: .get, parameters: parameters)
+            .validate()
+            .responseDecodable(of: RecipeResponse.self) { response in
+            switch response.result {
+            case .success(let recipeResponse):
+                callBack(.success(recipeResponse))
+            case .failure(let error):
+                callBack(.failure(error))
             }
-            
-            // Check the HTTP response status code
-            if let httpResponse = response as? HTTPURLResponse {
-                if httpResponse.statusCode == 200 {
-                    // API request was successful
-                    if let data = data {
-                        do {
-                            let recipiesData = try JSONDecoder().decode(RecipeResponse.self, from: data)
-                            callBack(true, recipiesData)
-                            return
-                            
-                        } catch {
-                            callBack(false, nil)
-                            return
-                        }
-                    }
-                } else {
-                    // API request failed
-                    callBack(false, nil)
-                    return
-                }
+         }
+     }
+    
+    func getNextRecipies(url: String, callBack: @escaping (Result<RecipeResponse, Error>) -> Void) {
+        AF.request(url, method: .get)
+            .validate()
+            .responseDecodable(of: RecipeResponse.self) { response in
+            switch response.result {
+            case .success(let recipeResponse):
+                callBack(.success(recipeResponse))
+            case .failure(let error):
+                callBack(.failure(error))
             }
-        }
-        task.resume()
+         }
     }
 }

@@ -27,13 +27,24 @@ final class RecipieViewController: UIViewController {
 
         if (isFavorite) {
             guard let idString = recipie?.id else { return }
-            recipieRepository.remove(id: idString)
-            recipie?.isFavorite = false
-            favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            recipieRepository.remove(id: idString) { result in
+                switch result {
+                case .success:
+                    self.recipie?.isFavorite = false
+                    self.favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                case .failure(let error):
+                    self.alert(title: "Error deleting item:", message: error.localizedDescription)
+                }
+            }
         } else {
-            recipieRepository.addRecipie(recipieInit: recipie!)
-            recipie?.isFavorite = true
-            favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            switch recipieRepository.addRecipie(recipieInit: recipie!) {
+            case .success:
+                recipie?.isFavorite = true
+                favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                self.alert(title: "Favorite", message: "Recipe added successfully.")
+            case .failure(let error):
+                self.alert(title: "Favorite", message: "Error adding recipe: \(error)")
+            }
         }
     }
 
@@ -59,11 +70,16 @@ final class RecipieViewController: UIViewController {
         guard let id = self.recipie?.id else { return }
 
         recipieRepository.getRecipieById(id: id, callback: {[weak self] recipie in
+            self?.favoriteButton.accessibilityTraits = .button
+            
             if recipie.isFavorite {
                 self?.favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                self?.favoriteButton.accessibilityHint = "Button for \(recipie.isFavorite ? "delete" : "add") the recipe to favories"
-                self?.favoriteButton.accessibilityLabel = "The Recipie is \(recipie.isFavorite ? "" : "not") in your favorite"
-                self?.favoriteButton.accessibilityTraits = .button
+                self?.favoriteButton.accessibilityHint = "Button for delete the recipe to favories"
+                self?.favoriteButton.accessibilityLabel = "The Recipie is in your favorite"
+            } else {
+                self?.favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
+                self?.favoriteButton.accessibilityHint = "Button for add the recipe to favories"
+                self?.favoriteButton.accessibilityLabel = "The Recipie is not in your favorite"
             }
          })
     }
@@ -110,6 +126,16 @@ final class RecipieViewController: UIViewController {
         } else {
             print("Failed to create URL from link or link is nil.")
         }
+    }
+    
+    private func alert (title:String, message:String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default) {
+            action in
+            NSLog(message);
+        })
+
+        present(alert, animated: true)
     }
 }
 

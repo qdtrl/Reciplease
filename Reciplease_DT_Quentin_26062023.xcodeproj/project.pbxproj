@@ -27,6 +27,8 @@
 		3CCBC2852A6EDDA500B2895A /* URLSessionFake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCBC2842A6EDDA500B2895A /* URLSessionFake.swift */; };
 		3CCBC2872A6EDDBB00B2895A /* FakeResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCBC2862A6EDDBB00B2895A /* FakeResponseData.swift */; };
 		3CF391152AE2499D002219EC /* RecipieRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF391142AE2499D002219EC /* RecipieRepository.swift */; };
+		4A8F9F422332DB1F1B0BCA3D /* Pods_Reciplease_DT_Quentin_26062023Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EDA374FE76DDB1C9D06687F /* Pods_Reciplease_DT_Quentin_26062023Tests.framework */; };
+		5F77BF7D8E8DFC0828343AAC /* Pods_Reciplease_DT_Quentin_26062023.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD65196E240B079FE2BD202C /* Pods_Reciplease_DT_Quentin_26062023.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07F33D47287D042BC9866873 /* Pods-Reciplease_DT_Quentin_26062023Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reciplease_DT_Quentin_26062023Tests.debug.xcconfig"; path = "Target Support Files/Pods-Reciplease_DT_Quentin_26062023Tests/Pods-Reciplease_DT_Quentin_26062023Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		279AE3605AF2E9B069E06386 /* Pods-Reciplease_DT_Quentin_26062023.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reciplease_DT_Quentin_26062023.debug.xcconfig"; path = "Target Support Files/Pods-Reciplease_DT_Quentin_26062023/Pods-Reciplease_DT_Quentin_26062023.debug.xcconfig"; sourceTree = "<group>"; };
 		3C0DDF1A2ACB1361008F2257 /* UsefullFunc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsefullFunc.swift; sourceTree = "<group>"; };
 		3C32130B2AD07DF400BEB101 /* RecipieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieTableViewCell.swift; sourceTree = "<group>"; };
 		3C5BCA412A49EDFC00D2B799 /* Reciplease_DT_Quentin_26062023.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reciplease_DT_Quentin_26062023.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,6 +69,10 @@
 		3CDD3F2C2A719A590019B077 /* Reciplease_DT_Quentin_26062023.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Reciplease_DT_Quentin_26062023.xctestplan; sourceTree = "<group>"; };
 		3CE7E1062A6193EC0017FF06 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		3CF391142AE2499D002219EC /* RecipieRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipieRepository.swift; sourceTree = "<group>"; };
+		3F3838467D880FBD83BCBAE7 /* Pods-Reciplease_DT_Quentin_26062023.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reciplease_DT_Quentin_26062023.release.xcconfig"; path = "Target Support Files/Pods-Reciplease_DT_Quentin_26062023/Pods-Reciplease_DT_Quentin_26062023.release.xcconfig"; sourceTree = "<group>"; };
+		7EDA374FE76DDB1C9D06687F /* Pods_Reciplease_DT_Quentin_26062023Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Reciplease_DT_Quentin_26062023Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD65196E240B079FE2BD202C /* Pods_Reciplease_DT_Quentin_26062023.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Reciplease_DT_Quentin_26062023.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4EB88D0043B1232EBD09EAA /* Pods-Reciplease_DT_Quentin_26062023Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Reciplease_DT_Quentin_26062023Tests.release.xcconfig"; path = "Target Support Files/Pods-Reciplease_DT_Quentin_26062023Tests/Pods-Reciplease_DT_Quentin_26062023Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F77BF7D8E8DFC0828343AAC /* Pods_Reciplease_DT_Quentin_26062023.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A8F9F422332DB1F1B0BCA3D /* Pods_Reciplease_DT_Quentin_26062023Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +102,8 @@
 				3C5BCA432A49EDFC00D2B799 /* Reciplease_DT_Quentin_26062023 */,
 				3CCBC2722A6EDC7000B2895A /* Reciplease_DT_Quentin_26062023Tests */,
 				3C5BCA422A49EDFC00D2B799 /* Products */,
+				9C7271172D43E4D576A37E8B /* Pods */,
+				5AA93ED2BE7138D1669B405B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -196,6 +208,26 @@
 			path = RecipiesRepositoryTests;
 			sourceTree = "<group>";
 		};
+		5AA93ED2BE7138D1669B405B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BD65196E240B079FE2BD202C /* Pods_Reciplease_DT_Quentin_26062023.framework */,
+				7EDA374FE76DDB1C9D06687F /* Pods_Reciplease_DT_Quentin_26062023Tests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9C7271172D43E4D576A37E8B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				279AE3605AF2E9B069E06386 /* Pods-Reciplease_DT_Quentin_26062023.debug.xcconfig */,
+				3F3838467D880FBD83BCBAE7 /* Pods-Reciplease_DT_Quentin_26062023.release.xcconfig */,
+				07F33D47287D042BC9866873 /* Pods-Reciplease_DT_Quentin_26062023Tests.debug.xcconfig */,
+				F4EB88D0043B1232EBD09EAA /* Pods-Reciplease_DT_Quentin_26062023Tests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -203,9 +235,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3C5BCA6B2A49EDFE00D2B799 /* Build configuration list for PBXNativeTarget "Reciplease_DT_Quentin_26062023" */;
 			buildPhases = (
+				36423B2AAC2B86422C518F4E /* [CP] Check Pods Manifest.lock */,
 				3C5BCA3D2A49EDFC00D2B799 /* Sources */,
 				3C5BCA3E2A49EDFC00D2B799 /* Frameworks */,
 				3C5BCA3F2A49EDFC00D2B799 /* Resources */,
+				67B5090087D7DD436D8DC0EE /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -220,6 +254,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3CCBC2772A6EDC7000B2895A /* Build configuration list for PBXNativeTarget "Reciplease_DT_Quentin_26062023Tests" */;
 			buildPhases = (
+				E2F57190767DF80E8B4372FD /* [CP] Check Pods Manifest.lock */,
 				3CCBC26D2A6EDC7000B2895A /* Sources */,
 				3CCBC26E2A6EDC7000B2895A /* Frameworks */,
 				3CCBC26F2A6EDC7000B2895A /* Resources */,
@@ -242,7 +277,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					3C5BCA402A49EDFC00D2B799 = {
 						CreatedOnToolsVersion = 14.3;
@@ -292,6 +327,70 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		36423B2AAC2B86422C518F4E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Reciplease_DT_Quentin_26062023-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		67B5090087D7DD436D8DC0EE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Reciplease_DT_Quentin_26062023/Pods-Reciplease_DT_Quentin_26062023-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Reciplease_DT_Quentin_26062023/Pods-Reciplease_DT_Quentin_26062023-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Reciplease_DT_Quentin_26062023/Pods-Reciplease_DT_Quentin_26062023-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E2F57190767DF80E8B4372FD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Reciplease_DT_Quentin_26062023Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3C5BCA3D2A49EDFC00D2B799 /* Sources */ = {
@@ -356,7 +455,6 @@
 /* Begin XCBuildConfiguration section */
 		3C5BCA692A49EDFE00D2B799 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CE7E1062A6193EC0017FF06 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -391,6 +489,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -405,7 +504,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -417,7 +516,6 @@
 		};
 		3C5BCA6A2A49EDFE00D2B799 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CE7E1062A6193EC0017FF06 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -452,6 +550,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -460,7 +559,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -472,7 +571,7 @@
 		};
 		3C5BCA6C2A49EDFE00D2B799 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CE7E1062A6193EC0017FF06 /* Config.xcconfig */;
+			baseConfigurationReference = 279AE3605AF2E9B069E06386 /* Pods-Reciplease_DT_Quentin_26062023.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -500,7 +599,7 @@
 		};
 		3C5BCA6D2A49EDFE00D2B799 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CE7E1062A6193EC0017FF06 /* Config.xcconfig */;
+			baseConfigurationReference = 3F3838467D880FBD83BCBAE7 /* Pods-Reciplease_DT_Quentin_26062023.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -528,6 +627,7 @@
 		};
 		3CCBC2782A6EDC7000B2895A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 07F33D47287D042BC9866873 /* Pods-Reciplease_DT_Quentin_26062023Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -545,6 +645,7 @@
 		};
 		3CCBC2792A6EDC7000B2895A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F4EB88D0043B1232EBD09EAA /* Pods-Reciplease_DT_Quentin_26062023Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
