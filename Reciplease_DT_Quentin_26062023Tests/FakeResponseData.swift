@@ -19,26 +19,17 @@ class FakeResponseData {
         return try? Data(contentsOf: url)
     }
     
-    // Correct data for the method getRate
-    static var autoCompleteCorrectData: Data? {
-        let bundle = Bundle(for: FakeResponseData.self)
-        guard let url = bundle.url(forResource: "FoodAutoComplete", withExtension: "json") else {
-            fatalError("FoodAutoComplete.json is not found.")
-        }
-        return try? Data(contentsOf: url)
-    }
-    
     // Incorrect data for all JSON
     static let incorrectData = "error".data(using: .utf8)!
     
     // MARK: - Response
     
     static let responseOK = HTTPURLResponse(
-        url: URL(string: "https://openclassrooms.com")!,
+        url: URL(string: "https://api.edamam.com/api/recipes/v2")!,
         statusCode: 200, httpVersion: nil, headerFields: [:])!
     
     static let responseKO = HTTPURLResponse(
-        url: URL(string: "https://openclassrooms.com")!,
+        url: URL(string: "https://api.edamam.com/api/recipes/v2")!,
         statusCode: 500, httpVersion: nil, headerFields: [:])!
     
     // MARK: - Error

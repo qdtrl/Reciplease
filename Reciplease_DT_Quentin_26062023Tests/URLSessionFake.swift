@@ -7,47 +7,36 @@
 
 import Foundation
 
-class URLSessionFake: URLSession {
-    var data: Data?
-    var response: URLResponse?
-    var error: Error?
-    
-    init(data: Data?, response: URLResponse?, error: Error?) {
-        self.data = data
-        self.response = response
-        self.error = error
-    }
-    
-    override func dataTask(with url: URL,
-                           completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        let task = URLSessionDataTaskFake()
-        task.completionHandler = completionHandler
-        task.data = data
-        task.urlResponse = response
-        task.responseError = error
-        return task
-    }
-    
-    override func dataTask(with request: URLRequest,
-                           completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        let task = URLSessionDataTaskFake()
-        task.completionHandler = completionHandler
-        task.data = data
-        task.urlResponse = response
-        task.responseError = error
-        return task
-    }
-}
+class MockURLProtocol: URLProtocol {
+    static var mockResponse: URLResponse?
+    static var mockData: Data?
+    static var mockError: Error?
 
-class URLSessionDataTaskFake: URLSessionDataTask {
-    var completionHandler: ((Data?, URLResponse?, Error?) -> Void)?
-    var data: Data?
-    var urlResponse: URLResponse?
-    var responseError: Error?
-    
-    override func resume() {
-         completionHandler?(data, urlResponse, responseError)
+    override class func canInit(with request: URLRequest) -> Bool {
+        return true
     }
-    
-    override func cancel() {}
+
+    override class func canonicalRequest(for request: URLRequest) -> URLRequest {
+        return request
+    }
+
+    override func startLoading() {
+        if let response = MockURLProtocol.mockResponse {
+            client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
+        }
+
+        if let data = MockURLProtocol.mockData {
+            client?.urlProtocol(self, didLoad: data)
+        }
+
+        if let error = MockURLProtocol.mockError {
+            client?.urlProtocol(self, didFailWithError: error)
+        }
+
+        client?.urlProtocolDidFinishLoading(self)
+    }
+
+    override func stopLoading() {
+        // Do nothing
+    }
 }

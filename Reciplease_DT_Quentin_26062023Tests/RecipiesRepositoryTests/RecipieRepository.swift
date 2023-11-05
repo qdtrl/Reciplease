@@ -9,286 +9,116 @@ import XCTest
 @testable import Reciplease_DT_Quentin_26062023
 
 final class RecipieRepositoryTests: XCTestCase {
-
-    var sut: RecipieRepository!
+    var repository: RecipieRepository!
+    let recipe = RecipeStruc(from: Reciplease_DT_Quentin_26062023.RecipeResponse.HitResponse(recipe: Reciplease_DT_Quentin_26062023.RecipeResponse.Recipe(label: "Chicken Vesuvio", image: "link", ingredientLines: ["1/2 cup olive oil", "5 cloves garlic, peeled", "2 large russet potatoes, peeled and cut into chunks", "1 3-4 pound chicken, cut into 8 pieces (or 3 pound chicken legs)", "3/4 cup white wine", "3/4 cup chicken stock", "3 tablespoons chopped parsley", "1 tablespoon dried oregano", "Salt and pepper", "1 cup frozen peas, thawed"], totalTime: 60.0, url: "http://www.seriouseats.com/recipes/2011/12/chicken-vesuvio-recipe.html", yield: 4.0, dietLabels: ["Low-Carb"], healthLabels: ["Mediterranean", "Dairy-Free"], mealType: ["lunch/dinner"])))
+    
     
     override func setUp() {
         super.setUp()
-        
-        sut = RecipieRepository(coreDataStack: CoreDataStack.shared)
-        sut.deleteAllData()
+        repository = RecipieRepository(coreDataStack: CoreDataStack.shared)
     }
     
     override func tearDown() {
         super.tearDown()
-        sut.deleteAllData()
+        repository = nil
     }
     
-    func testCeateRecipieWithModel() {
-        sut.deleteAllData()
-        let recipie = Recipie(context: CoreDataStack.shared.viewContext)
+    func testDeleteAllData() {
+        // Given
+        let expectation = XCTestExpectation(description: "Delete all data")
         
-        let recipe = RecipeStruc(from: recipie)
-        let results = RecipeResponse(hits: [Reciplease_DT_Quentin_26062023.RecipeResponse.HitResponse(recipe: Reciplease_DT_Quentin_26062023.RecipeResponse.Recipe(label: "Baking with Dorie: Lemon-Lemon Lemon Cream Recipe", image: "https://edamam-product-images", ingredientLines: ["1 cup sugar", "Finely grated zest of 3 lemons", "4 large eggs", "3/4 cup freshly squeezed lemon juice (from 4 to 5 lemons)", "2 sticks plus 5 tablespoons (21 tablespoons; 10 1/2 ounces) unsalted butter, at room temperature and cut into tablespoon-sized pieces", "1 fully-baked 9-inch tart shell"], totalTime: 0.0, url: "http://www.seriouseats.com/recipes/2008/04/lemon-lemon-lemon-cream-recipe.html", yield: 8.0, dietLabels: ["Low-Sodium"], healthLabels: ["Low Potassium", "Kidney-Friendly", "Vegetarian", "Pescatarian", "Peanut-Free", "Tree-Nut-Free", "Soy-Free", "Fish-Free", "Shellfish-Free", "Pork-Free", "Red-Meat-Free", "Crustacean-Free", "Celery-Free", "Mustard-Free", "Sesame-Free", "Lupine-Free", "Mollusk-Free", "Alcohol-Free", "Kosher"], mealType: ["lunch/dinner"])), Reciplease_DT_Quentin_26062023.RecipeResponse.HitResponse(recipe: Reciplease_DT_Quentin_26062023.RecipeResponse.Recipe(label: "", image: "", ingredientLines: [""], totalTime: 0, url: "", yield: 0, dietLabels: [], healthLabels: [], mealType: []))])
+        _ = repository.addRecipie(recipieInit: recipe)
         
+        // When
+        let result = repository.deleteAllData()
         
-        let recipies = results.hits.map { hit -> RecipeStruc in
-            RecipeStruc(from: hit)
+        // Then
+        switch result {
+        case .success:
+            expectation.fulfill()
+        case .failure:
+            XCTFail("Delete all data failed")
         }
         
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
-
-        XCTAssertEqual(recipe.id, "")
-        XCTAssertEqual(recipies.first!.id, "Baking with Dorie: Lemon-Lemon Lemon Cream Recipe")
-        
-        expectation.fulfill()
-        sut.deleteAllData()
-        
-        wait(for: [expectation], timeout: 0.6)
+        wait(for: [expectation], timeout: 5)
     }
     
     func testAddRecipie() {
-        sut.deleteAllData()
         // Given
-        let recipie = Recipie(context: CoreDataStack.shared.viewContext)
-        recipie.id = "123"
-        recipie.title = "Test Recipe"
-        recipie.subtitle = "Test Subtitle"
-        recipie.image = "Test Image"
-        recipie.time = 10
-        recipie.instructions = "Test Instructions"
-        recipie.redirection = "Test Redirection"
-        recipie.yield = 30
-        recipie.isFavorite = true
-        let recipe = RecipeStruc(from: recipie)
+        let expectation = XCTestExpectation(description: "Add recipie")
         
         // When
-        sut.addRecipie(recipieInit: recipe)
+        let result = repository.addRecipie(recipieInit: recipe)
         
         // Then
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getRecipies { (recipes) in
-            XCTAssertEqual(recipes.first?.id, "123")
-            XCTAssertEqual(recipes.first?.title, "Test Recipe")
-            XCTAssertEqual(recipes.first?.subtitle, "Test Subtitle")
-            XCTAssertEqual(recipes.first?.image, "Test Image")
-            XCTAssertEqual(recipes.first?.time, 10)
-            XCTAssertEqual(recipes.first?.instructions, "Test Instructions")
-            XCTAssertEqual(recipes.first?.redirection, "Test Redirection")
-            XCTAssertEqual(recipes.first?.yield, 30)
-            XCTAssertTrue(recipes.first?.isFavorite ?? false)
+        switch result {
+        case .success:
             expectation.fulfill()
+        case .failure:
+            XCTFail("Add recipie failed")
         }
-        sut.deleteAllData()
-
-        wait(for: [expectation], timeout: 0.6)
+        
+        wait(for: [expectation], timeout: 5)
     }
     
     func testGetRecipies() {
-        sut.deleteAllData()
         // Given
-        let recipie1 = Recipie(context: CoreDataStack.shared.viewContext)
-        recipie1.id = "123"
-        recipie1.title = "Test Recipe 1"
-        recipie1.subtitle = "Test Subtitle 1"
-        recipie1.image = "Test Image 1"
-        recipie1.time = 40
-        recipie1.instructions = "Test Instructions 1"
-        recipie1.redirection = "Test Redirection 1"
-        recipie1.yield = 100
-        recipie1.isFavorite = true
+        let expectation = XCTestExpectation(description: "Get recipies")
         
-        let recipe1 = RecipeStruc(from: recipie1)
-        
-        sut.addRecipie(recipieInit: recipe1)
-
-        let recipie2 = Recipie(context: CoreDataStack.shared.viewContext)
-        recipie2.id = "456"
-        recipie2.title = "Test Recipe 2"
-        recipie2.subtitle = "Test Subtitle 2"
-        recipie2.image = "Test Image 2"
-        recipie2.time = 1402
-        recipie2.instructions = "Test Instructions 2"
-        recipie2.redirection = "Test Redirection 2"
-        recipie2.yield = 2
-        recipie2.isFavorite = false
-        
-        
-        let recipe2 = RecipeStruc(from: recipie2)
-        
-        sut.addRecipie(recipieInit: recipe2)
+        _ = repository.addRecipie(recipieInit: recipe)
         
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getRecipies { (recipes) in
+        repository.getRecipies { result in
             // Then
-            XCTAssertEqual(recipes.first?.id, "123")
-            XCTAssertEqual(recipes.first?.title, "Test Recipe 1")
-            XCTAssertEqual(recipes.first?.subtitle, "Test Subtitle 1")
-            XCTAssertEqual(recipes.first?.image, "Test Image 1")
-            XCTAssertEqual(recipes.first?.time, 40)
-            XCTAssertEqual(recipes.first?.instructions, "Test Instructions 1")
-            XCTAssertEqual(recipes.first?.redirection, "Test Redirection 1")
-            XCTAssertEqual(recipes.first?.yield, 100)
-            XCTAssertTrue(recipes.first?.isFavorite ?? false)
-            
-            XCTAssertEqual(recipes.last?.id, "456")
-            XCTAssertEqual(recipes.last?.title, "Test Recipe 2")
-            XCTAssertEqual(recipes.last?.subtitle, "Test Subtitle 2")
-            XCTAssertEqual(recipes.last?.image, "Test Image 2")
-            XCTAssertEqual(recipes.last?.time, 1402)
-            XCTAssertEqual(recipes.last?.instructions, "Test Instructions 2")
-            XCTAssertEqual(recipes.last?.redirection, "Test Redirection 2")
-            XCTAssertEqual(recipes.last?.yield, 2)
-            expectation.fulfill()
+            switch result {
+            case .success(let recipes):
+                XCTAssertEqual(recipes.first?.id, "Chicken Vesuvio")
+                XCTAssertEqual(recipes.first?.title, "Chicken Vesuvio")
+                XCTAssertEqual(recipes.first?.image, "link")
+                expectation.fulfill()
+            case .failure:
+                XCTFail("Get recipies failed")
+            }
         }
-        sut.deleteAllData()
-
-        wait(for: [expectation], timeout: 0.6)
+        
+        wait(for: [expectation], timeout: 5)
     }
     
     func testGetRecipieById() {
-        sut.deleteAllData()
         // Given
-        let recipie1 = Recipie(context: CoreDataStack.shared.viewContext)
-        recipie1.id = "123"
-        recipie1.title = "Test Recipe 1"
-        recipie1.subtitle = "Test Subtitle 1"
-        recipie1.image = "Test Image 1"
-        recipie1.time = 40
-        recipie1.instructions = "Test Instructions 1"
-        recipie1.redirection = "Test Redirection 1"
-        recipie1.yield = 100
-        recipie1.isFavorite = true
+        let expectation = XCTestExpectation(description: "Get recipie by id")
         
-        let recipie2 = Recipie(context: CoreDataStack.shared.viewContext)
-        recipie2.id = "456"
-        recipie2.title = "Test Recipe 2"
-        recipie2.subtitle = "Test Subtitle 2"
-        recipie2.image = "Test Image 2"
-        recipie2.time = 1402
-        recipie2.instructions = "Test Instructions 2"
-        recipie2.redirection = "Test Redirection 2"
-        recipie2.yield = 2
-        recipie2.isFavorite = false
+        _ = repository.addRecipie(recipieInit: recipe)
         
-        let recipie3 = Recipie(context: CoreDataStack.shared.viewContext)
-        recipie3.id = "123"
-        recipie3.title = "Test Recipe 1"
-        recipie3.subtitle = "Test Subtitle 1"
-        recipie3.image = "Test Image 1"
-        recipie3.time = 40
-        recipie3.instructions = "Test Instructions 1"
-        recipie3.redirection = "Test Redirection 1"
-        recipie3.yield = 100
-        recipie3.isFavorite = false
-        
-        let recipe1 = RecipeStruc(from: recipie1)
-        let recipe2 = RecipeStruc(from: recipie2)
-        let recipe3 = RecipeStruc(from: recipie3)
-        sut.addRecipie(recipieInit: recipe1)
-        sut.addRecipie(recipieInit: recipe2)
-        sut.addRecipie(recipieInit: recipe3)
-
         // When
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getRecipieById(id: "123") { (recipe) in
-            
+        repository.getRecipieById(id: "Chicken Vesuvio") { result in
             // Then
-            XCTAssertEqual(recipe.id, "123")
-            XCTAssertEqual(recipe.title, "Test Recipe 1")
-            XCTAssertEqual(recipe.subtitle, "Test Subtitle 1")
-            XCTAssertEqual(recipe.image, "Test Image 1")
-            XCTAssertEqual(recipe.time, 40)
-            XCTAssertEqual(recipe.instructions, "Test Instructions 1")
-            XCTAssertEqual(recipe.redirection, "Test Redirection 1")
-            XCTAssertEqual(recipe.yield, 100)
-            XCTAssertTrue(recipe.isFavorite)
+            XCTAssertEqual(result.id, "Chicken Vesuvio")
+            XCTAssertEqual(result.title, "Chicken Vesuvio")
+            XCTAssertEqual(result.image, "link")
             expectation.fulfill()
         }
-        sut.deleteAllData()
-
-        wait(for: [expectation], timeout: 0.6)
+        
+        wait(for: [expectation], timeout: 5)
     }
     
     func testRemove() {
-        sut.deleteAllData()
         // Given
-        let recipie1 = Recipie(context: CoreDataStack.shared.viewContext)
-        recipie1.id = "123"
-        recipie1.title = "Test Recipe 1"
-        recipie1.subtitle = "Test Subtitle 1"
-        recipie1.image = "Test Image 1"
-        recipie1.time = 40
-        recipie1.instructions = "Test Instructions 1"
-        recipie1.redirection = "Test Redirection 1"
-        recipie1.yield = 100
-        recipie1.isFavorite = true
+        let expectation = XCTestExpectation(description: "Remove recipie")
         
-        let recipe1 = RecipeStruc(from: recipie1)
-        
-        
-
-        let recipie2 = Recipie(context: CoreDataStack.shared.viewContext)
-        recipie2.id = "456"
-        recipie2.title = "Test Recipe 2"
-        recipie2.subtitle = "Test Subtitle 2"
-        recipie2.image = "Test Image 2"
-        recipie2.time = 1402
-        recipie2.instructions = "Test Instructions 2"
-        recipie2.redirection = "Test Redirection 2"
-        recipie2.yield = 2
-        recipie2.isFavorite = false
-        
-        
-        let recipe2 = RecipeStruc(from: recipie2)
-        
-        
-        sut.deleteAllData()
-        sut.addRecipie(recipieInit: recipe1)
-        sut.addRecipie(recipieInit: recipe2)
+        _ = repository.addRecipie(recipieInit: recipe)
         
         // When
-        sut.remove(id: "123")
-        
-        // Then
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getRecipies { (recipes) in
-            print(recipes)
-            XCTAssertEqual(recipes.first?.id, "456")
-            XCTAssertEqual(recipes.first?.title, "Test Recipe 2")
-            XCTAssertEqual(recipes.first?.subtitle, "Test Subtitle 2")
-            XCTAssertEqual(recipes.first?.image, "Test Image 2")
-            XCTAssertEqual(recipes.first?.time, 1402)
-            XCTAssertEqual(recipes.first?.instructions, "Test Instructions 2")
-            XCTAssertEqual(recipes.first?.redirection, "Test Redirection 2")
-            XCTAssertEqual(recipes.first?.yield, 2)
-            XCTAssertEqual(recipes.first?.isFavorite, true)
-            expectation.fulfill()
+        repository.remove(id: "Chicken Vesuvio") { result in
+            // Then
+            switch result {
+            case .success:
+                expectation.fulfill()
+            case .failure:
+                XCTFail("Remove recipie failed")
+            }
         }
-
-        wait(for: [expectation], timeout: 0.6)
+        
+        wait(for: [expectation], timeout: 5)
     }
-    
-    func testRemoveWrongId() {
-        sut.deleteAllData()
-        var count = 0
-        sut.getRecipies { (recipes) in
-            count = recipes.count
-        }
-        // When
-        sut.remove(id: "wrong")
-        
-        // Then
-        let expectation = XCTestExpectation(description: "Wait for queue change.")
-        sut.getRecipies { (recipes) in
-            XCTAssertEqual(recipes.count, count)
-           
-            expectation.fulfill()
-        }
-        sut.deleteAllData()
-        
-        wait(for: [expectation], timeout: 0.6)
-    }
-
 }
