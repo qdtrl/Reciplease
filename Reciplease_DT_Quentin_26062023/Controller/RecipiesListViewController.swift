@@ -20,11 +20,15 @@ class RecipiesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.reloadData()
+        getData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getData()
+    }
+    
+    private func getData() {
         emptyResults.isHidden = true
         loader.hidesWhenStopped = true
         
@@ -82,6 +86,7 @@ class RecipiesListViewController: UIViewController {
             if self?.recipies.count == 0 {
                 self?.emptyResults.text = displayFavorites ? "No favorite recipes, add some first via search" : "No results with your combination of ingredients"
                 self?.emptyResults.isHidden = false
+                self?.tableView.reloadData()
                 self?.loader.stopAnimating()
             } else {
                 self?.tableView.reloadData()

@@ -70,22 +70,24 @@ final class RecipieRepository {
         }
     }
     
-    func getRecipieById(id: String, callback: @escaping (RecipeStruc) -> Void) {
+    func getRecipieById(id: String, callback: @escaping (Result<RecipeStruc, Error>) -> Void) {
         let request: NSFetchRequest<Recipie> = Recipie.fetchRequest()
         
         request.predicate = NSPredicate(format: "id == %@", id)
         
         guard let recipies = try? coreDataStack.viewContext.fetch(request) else {
-            callback(RecipeStruc(from: Recipie()))
+            callback(.failure(NSError()))
             return
         }
         
         if recipies.count > 0 {
             if let recipie = recipies.first {
                 let result = RecipeStruc(from: recipie)
-                callback(result)
+                callback(.success(result))
                 return
             }
+        } else {
+            callback(.failure(NSError()))
         }
     }
     

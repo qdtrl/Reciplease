@@ -12,6 +12,8 @@ final class RecipieRepositoryTests: XCTestCase {
     var repository: RecipieRepository!
     let recipe = RecipeStruc(from: Reciplease_DT_Quentin_26062023.RecipeResponse.HitResponse(recipe: Reciplease_DT_Quentin_26062023.RecipeResponse.Recipe(label: "Chicken Vesuvio", image: "link", ingredientLines: ["1/2 cup olive oil", "5 cloves garlic, peeled", "2 large russet potatoes, peeled and cut into chunks", "1 3-4 pound chicken, cut into 8 pieces (or 3 pound chicken legs)", "3/4 cup white wine", "3/4 cup chicken stock", "3 tablespoons chopped parsley", "1 tablespoon dried oregano", "Salt and pepper", "1 cup frozen peas, thawed"], totalTime: 60.0, url: "http://www.seriouseats.com/recipes/2011/12/chicken-vesuvio-recipe.html", yield: 4.0, dietLabels: ["Low-Carb"], healthLabels: ["Mediterranean", "Dairy-Free"], mealType: ["lunch/dinner"])))
     
+    let recipe2 = RecipeStruc(from: Reciplease_DT_Quentin_26062023.RecipeResponse.HitResponse(recipe: Reciplease_DT_Quentin_26062023.RecipeResponse.Recipe(label: "Chicken Vesuvio", image: "link", ingredientLines: ["1/2 cup olive oil", "5 cloves garlic, peeled", "2 large russet potatoes, peeled and cut into chunks", "1 3-4 pound chicken, cut into 8 pieces (or 3 pound chicken legs)", "3/4 cup white wine", "3/4 cup chicken stock", "3 tablespoons chopped parsley", "1 tablespoon dried oregano", "Salt and pepper", "1 cup frozen peas, thawed"], totalTime: 60.0, url: "http://www.seriouseats.com/recipes/2011/12/chicken-vesuvio-recipe.html", yield: 4.0, dietLabels: [], healthLabels: [], mealType: [])))
+    
     
     override func setUp() {
         super.setUp()
@@ -26,8 +28,10 @@ final class RecipieRepositoryTests: XCTestCase {
     func testDeleteAllData() {
         // Given
         let expectation = XCTestExpectation(description: "Delete all data")
-        
+        var recipie3 = RecipeStruc(from: CoreDataStack.shared.)
         _ = repository.addRecipie(recipieInit: recipe)
+        _ = repository.addRecipie(recipieInit: recipe2)
+
         
         // When
         let result = repository.deleteAllData()
@@ -93,10 +97,16 @@ final class RecipieRepositoryTests: XCTestCase {
         // When
         repository.getRecipieById(id: "Chicken Vesuvio") { result in
             // Then
-            XCTAssertEqual(result.id, "Chicken Vesuvio")
-            XCTAssertEqual(result.title, "Chicken Vesuvio")
-            XCTAssertEqual(result.image, "link")
-            expectation.fulfill()
+            switch result {
+            case .success(let recipe):
+                XCTAssertEqual(recipe.id, "Chicken Vesuvio")
+                XCTAssertEqual(recipe.title, "Chicken Vesuvio")
+                XCTAssertEqual(recipe.image, "link")
+                expectation.fulfill()
+            case .failure:
+                XCTFail("Get recipies failed")
+            }
+            
         }
         
         wait(for: [expectation], timeout: 5)

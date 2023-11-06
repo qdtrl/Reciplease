@@ -60,28 +60,44 @@ final class RecipieViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkInDB()
         
-        checkIfFavorite()
         updateView()
-        tableView.reloadData()
     }
     
-    private func checkIfFavorite() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        checkInDB()
+    }
+    
+    private func checkInDB() {
         guard let id = self.recipie?.id else { return }
 
-        recipieRepository.getRecipieById(id: id, callback: {[weak self] recipie in
-            self?.favoriteButton.accessibilityTraits = .button
-            
-            if recipie.isFavorite {
-                self?.favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                self?.favoriteButton.accessibilityHint = "Button for delete the recipe to favories"
-                self?.favoriteButton.accessibilityLabel = "The Recipie is in your favorite"
-            } else {
-                self?.favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
-                self?.favoriteButton.accessibilityHint = "Button for add the recipe to favories"
-                self?.favoriteButton.accessibilityLabel = "The Recipie is not in your favorite"
+        recipieRepository.getRecipieById(id: id) { recipie in
+            switch recipie {
+            case .success(_):
+                self.recipie?.isFavorite = true
+            case .failure(_):
+                self.recipie?.isFavorite = false
             }
-         })
+            self.checkIfFavorite()
+         }
+    }
+    
+    private func checkIfFavorite(){
+        self.favoriteButton.accessibilityTraits = .button
+        guard let isFavorite = self.recipie?.isFavorite else { return }
+
+        if isFavorite {
+            self.favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+            self.favoriteButton.accessibilityHint = "Button for delete the recipe to favories"
+            self.favoriteButton.accessibilityLabel = "The Recipie is in your favorite"
+        } else {
+            self.favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
+            self.favoriteButton.accessibilityHint = "Button for add the recipe to favories"
+            self.favoriteButton.accessibilityLabel = "The Recipie is not in your favorite"
+        }
     }
     
     private func updateView() {
@@ -126,6 +142,7 @@ final class RecipieViewController: UIViewController {
         } else {
             print("Failed to create URL from link or link is nil.")
         }
+        tableView.reloadData()
     }
     
     private func alert (title:String, message:String) {
