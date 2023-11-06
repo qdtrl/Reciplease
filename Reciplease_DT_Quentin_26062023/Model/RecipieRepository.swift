@@ -87,7 +87,7 @@ final class RecipieRepository {
                 return
             }
         } else {
-            callback(.failure(NSError()))
+            callback(.failure(NSError(domain: "No recipie matching id", code: 404, userInfo: ["\(id) not found": id])))
         }
     }
     
@@ -106,7 +106,7 @@ final class RecipieRepository {
                     callback(.failure(saveError))
                 }
             } else {
-                callback(.failure(NSError()))
+                callback(.failure(NSError(domain: "No recipie matching id", code: 404, userInfo: ["\(id) not found": id])))
             }
         } catch let error {
             callback(.failure(error))

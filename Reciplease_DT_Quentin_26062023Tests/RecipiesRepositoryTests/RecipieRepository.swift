@@ -28,9 +28,13 @@ final class RecipieRepositoryTests: XCTestCase {
     func testDeleteAllData() {
         // Given
         let expectation = XCTestExpectation(description: "Delete all data")
-        var recipie3 = RecipeStruc(from: CoreDataStack.shared.)
+        let recipie = Recipie(context: CoreDataStack.shared.viewContext)
+
+        let recipe3 = RecipeStruc(from: recipie)
         _ = repository.addRecipie(recipieInit: recipe)
         _ = repository.addRecipie(recipieInit: recipe2)
+        _ = repository.addRecipie(recipieInit: recipe3)
+
 
         
         // When
@@ -112,6 +116,27 @@ final class RecipieRepositoryTests: XCTestCase {
         wait(for: [expectation], timeout: 5)
     }
     
+    func testGetRecipieWithWrongId() {
+        // Given
+        let expectation = XCTestExpectation(description: "Get recipie by wrong id")
+        
+        _ = repository.addRecipie(recipieInit: recipe)
+        
+        // When
+        repository.getRecipieById(id: "wrong") { result in
+            // Then
+            switch result {
+            case .success(let recipe):
+                XCTAssertNil(recipe)
+            case .failure(let error):
+                XCTAssertNotNil(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 5)
+    }
+    
     func testRemove() {
         // Given
         let expectation = XCTestExpectation(description: "Remove recipie")
@@ -127,6 +152,27 @@ final class RecipieRepositoryTests: XCTestCase {
             case .failure:
                 XCTFail("Remove recipie failed")
             }
+        }
+        
+        wait(for: [expectation], timeout: 5)
+    }
+    
+    func testRemoveWrongId() {
+        // Given
+        let expectation = XCTestExpectation(description: "Remove recipie")
+        
+        _ = repository.addRecipie(recipieInit: recipe)
+        
+        // When
+        repository.remove(id: "wrong") { result in
+            // Then
+            switch result {
+            case .success(let recipe):
+                XCTAssertNil(recipe)
+            case .failure(let error):
+                XCTAssertNotNil(error.localizedDescription)
+            }
+            expectation.fulfill()
         }
         
         wait(for: [expectation], timeout: 5)
